@@ -1,10 +1,11 @@
 import { motion } from 'motion/react';
-import { ArrowUpRight, BarChart3, CheckCircle2, Code2, Database, Download, Linkedin, Mail, MessageCircle, Search, Settings2, Target, Workflow } from 'lucide-react';
+import { ArrowUpRight, BarChart3, CheckCircle2, Code2, Database, Download, Github, Linkedin, Mail, MessageCircle, Search, Settings2, Target, Workflow } from 'lucide-react';
 
 const CONTACT = {
   email: 'info.moadel@gmail.com',
   whatsapp: 'https://wa.me/971562988714',
   linkedin: 'https://www.linkedin.com/in/mohamedadel-seo/',
+  github: 'https://github.com/MohAdell',
   resume: '/resume.pdf',
 };
 
@@ -90,6 +91,7 @@ export default function App() {
               <div className="mt-10 flex flex-wrap gap-3">
                 <a href="#work" className="primary-button">View selected work <ArrowUpRight className="h-4 w-4" /></a>
                 <a href={CONTACT.linkedin} target="_blank" rel="noreferrer" className="secondary-button"><Linkedin className="h-4 w-4" /> LinkedIn</a>
+                <a href={CONTACT.github} target="_blank" rel="noreferrer" className="secondary-button"><Github className="h-4 w-4" /> GitHub</a>
                 <a href={CONTACT.resume} target="_blank" rel="noreferrer" className="secondary-button"><Download className="h-4 w-4" /> Resume</a>
               </div>
             </motion.div>
@@ -128,7 +130,7 @@ export default function App() {
           </div></div>
         </section>
 
-        <section id="contact" className="mx-auto max-w-7xl px-6 py-24 lg:py-32"><motion.div {...reveal} className="rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.06] to-emerald-300/[0.05] p-8 md:p-12"><div className="grid gap-10 lg:grid-cols-[1fr_auto] lg:items-end"><div><div className="section-eyebrow">Contact</div><h2 className="max-w-3xl font-display text-4xl font-semibold tracking-tight text-white md:text-5xl">Connect marketing execution with the systems behind it.</h2><p className="mt-5 max-w-2xl text-base leading-7 text-slate-300">Based in Abu Dhabi and open to relevant digital marketing, performance marketing, MarTech and automation opportunities.</p></div><div className="flex flex-wrap gap-3 lg:justify-end"><a href={'mailto:' + CONTACT.email} className="contact-button"><Mail className="h-4 w-4" />Email</a><a href={CONTACT.whatsapp} target="_blank" rel="noreferrer" className="contact-button"><MessageCircle className="h-4 w-4" />WhatsApp</a><a href={CONTACT.linkedin} target="_blank" rel="noreferrer" className="contact-button"><Linkedin className="h-4 w-4" />LinkedIn</a></div></div></motion.div></section>
+        <section id="contact" className="mx-auto max-w-7xl px-6 py-24 lg:py-32"><motion.div {...reveal} className="rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.06] to-emerald-300/[0.05] p-8 md:p-12"><div className="grid gap-10 lg:grid-cols-[1fr_auto] lg:items-end"><div><div className="section-eyebrow">Contact</div><h2 className="max-w-3xl font-display text-4xl font-semibold tracking-tight text-white md:text-5xl">Connect marketing execution with the systems behind it.</h2><p className="mt-5 max-w-2xl text-base leading-7 text-slate-300">Based in Abu Dhabi and open to relevant digital marketing, performance marketing, MarTech and automation opportunities.</p></div><div className="flex flex-wrap gap-3 lg:justify-end"><a href={'mailto:' + CONTACT.email} className="contact-button"><Mail className="h-4 w-4" />Email</a><a href={CONTACT.whatsapp} target="_blank" rel="noreferrer" className="contact-button"><MessageCircle className="h-4 w-4" />WhatsApp</a><a href={CONTACT.linkedin} target="_blank" rel="noreferrer" className="contact-button"><Linkedin className="h-4 w-4" />LinkedIn</a><a href={CONTACT.github} target="_blank" rel="noreferrer" className="contact-button"><Github className="h-4 w-4" />GitHub</a></div></div></motion.div></section>
       </main>
       <footer className="border-t border-white/8 py-8"><div className="mx-auto flex max-w-7xl flex-col gap-3 px-6 text-sm text-slate-500 sm:flex-row sm:items-center sm:justify-between"><span>© {new Date().getFullYear()} Mohamed Adel Attia</span><span>Digital Marketing · MarTech · CRM · SEO · Automation</span></div></footer>
     </div>
