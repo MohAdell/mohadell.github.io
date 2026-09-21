@@ -1,0 +1,76 @@
+name: Portfolio Quality
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      - portfolio-refresh-2026
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: TypeScript check
+        run: npm run lint
+
+      - name: Production build
+        run: npm run build
+
+      - name: Validate SEO and structured data files
+        run: |
+          node - <<'NODE'
+          const fs = require('fs');
+
+          const html = fs.readFileSync('index.html', 'utf8');
+          const required = [
+            '<link rel="canonical"',
+            'application/ld+json',
+            '"@type": "ProfilePage"',
+            '"@type": "Person"',
+            '"@type": "WebSite"',
+            'og:title',
+            'twitter:card'
+          ];
+          for (const token of required) {
+            if (!html.includes(token)) throw new Error('Missing SEO token: ' + token);
+          }
+
+          const match = html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/);
+          if (!match) throw new Error('JSON-LD block not found');
+          JSON.parse(match[1]);
+
+          for (const file of ['public/robots.txt','public/sitemap.xml','public/llms.txt','public/index.md','public/resume.pdf']) {
+            if (!fs.existsSync(file)) throw new Error('Missing required file: ' + file);
+          }
+
+          const robots = fs.readFileSync('public/robots.txt','utf8');
+          if (!robots.includes('Sitemap: https://mohadell.github.io/sitemap.xml')) {
+            throw new Error('robots.txt does not reference sitemap');
+          }
+
+          const sitemap = fs.readFileSync('public/sitemap.xml','utf8');
+          if (!sitemap.includes('https://mohadell.github.io/')) {
+            throw new Error('sitemap does not include canonical homepage');
+          }
+
+          const llms = fs.readFileSync('public/llms.txt','utf8');
+          if (!llms.startsWith('# Mohamed Adel Attia Portfolio')) {
+            throw new Error('llms.txt title is invalid');
+          }
+          NODE
