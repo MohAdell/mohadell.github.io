@@ -11,9 +11,9 @@ const CONTACT = {
 
 const stats = [
   ['5+ years', 'Digital marketing experience'],
-  ['Five-figure', 'Monthly paid-media budgets'],
-  ['15–40%', 'Qualified-lead share in recent campaigns'],
-  ['AED 1M–6M', 'Recent property ticket range'],
+  ['Paid media', 'Campaign ownership & optimization'],
+  ['Lead quality', 'Qualification tracked beyond raw volume'],
+  ['High-ticket', 'UAE real-estate acquisition'],
 ];
 
 const capabilities = [
@@ -28,9 +28,9 @@ const capabilities = [
 const projects = [
   {
     tag: 'REAL ESTATE · PERFORMANCE',
-    title: 'High-ticket lead generation for AED 1M–6M properties',
-    points: ['Meta Ads + Google Ads across five-figure monthly budgets', 'Audience and placement strategy, creatives, lead forms and landing pages', 'CPL, lead quality and downstream CRM status tracked together'],
-    result: 'Across recent three-month campaigns, roughly 15%–40% of total leads were qualified, with qualified prospects progressing to online and in-person meetings.',
+    title: 'High-ticket real-estate lead generation',
+    points: ['Meta Ads + Google Ads across active property campaigns', 'Audience and placement strategy, creatives, lead forms and landing pages', 'CPL, lead quality and downstream CRM status tracked together'],
+    result: 'Campaign reporting tracked qualification and meeting progression, with qualified prospects moving into online and in-person meetings.',
   },
   {
     tag: 'REAL ESTATE · CRM',
@@ -114,7 +114,7 @@ export default function App() {
         </section>
 
         <section id="work" className="border-y border-white/8 bg-[#091625]">
-          <div className="mx-auto max-w-7xl px-6 py-24 lg:py-28"><Heading eyebrow="Selected work" title="Systems and workflows built around real business needs." text="Quantitative claims are only used where they are documented." />
+          <div className="mx-auto max-w-7xl px-6 py-24 lg:py-28"><Heading eyebrow="Selected work" title="Systems and workflows built around real business needs." text="Selected work is described without exposing confidential company performance figures." />
             <div className="grid gap-6 lg:grid-cols-2">{projects.map((item, index) => <motion.article key={item.title} {...reveal} transition={{ duration: 0.45, delay: index * 0.04 }} className="rounded-2xl border border-white/8 bg-[#07111f] p-7 md:p-8"><div className="text-xs font-semibold tracking-[0.16em] text-cyan-300">{item.tag}</div><h3 className="mt-4 font-display text-2xl font-semibold text-white">{item.title}</h3><ul className="mt-6 space-y-3">{item.points.map(point => <li key={point} className="flex gap-3 text-sm leading-6 text-slate-300"><CheckCircle2 className="mt-1 h-4 w-4 shrink-0 text-emerald-300" />{point}</li>)}</ul><div className="mt-6 rounded-xl border border-white/8 bg-white/[0.03] p-5"><div className="text-sm font-semibold text-white">Outcome</div><p className="mt-2 text-sm leading-6 text-slate-400">{item.result}</p></div></motion.article>)}</div>
           </div>
         </section>
@@ -125,7 +125,7 @@ export default function App() {
 
         <section id="experience" className="border-y border-white/8 bg-[#091625]"><div className="mx-auto max-w-7xl px-6 py-24 lg:py-28"><Heading eyebrow="Experience" title="Current role and earlier digital work." />
           <div className="grid gap-6 lg:grid-cols-2">
-            <motion.article {...reveal} className="rounded-2xl border border-emerald-300/15 bg-emerald-300/[0.04] p-7 md:p-9"><div className="text-sm font-semibold text-emerald-300">Apr 2025 – Present</div><h3 className="mt-3 font-display text-2xl font-semibold text-white">Information Technology Consultant</h3><div className="mt-1 text-slate-400">Digital Marketing & Automation · Oplus Realty · Abu Dhabi</div><ul className="mt-7 space-y-4 text-sm leading-6 text-slate-300"><li>Manage Meta Ads and Google Ads for high-ticket real-estate lead generation across five-figure monthly paid-media budgets.</li><li>Built the company CRM around lead capture, routing, WhatsApp, SMS and SLA-based follow-up.</li><li>Develop and optimize the WordPress website, UTM/event tracking, landing pages, technical SEO, dashboards and automation workflows.</li><li>Create advertising assets using Photoshop and AI-assisted production workflows and build reporting or scheduled scripts when recurring work can be automated.</li></ul></motion.article>
+            <motion.article {...reveal} className="rounded-2xl border border-emerald-300/15 bg-emerald-300/[0.04] p-7 md:p-9"><div className="text-sm font-semibold text-emerald-300">Apr 2025 – Present</div><h3 className="mt-3 font-display text-2xl font-semibold text-white">Information Technology Consultant</h3><div className="mt-1 text-slate-400">Digital Marketing & Automation · Oplus Realty · Abu Dhabi</div><ul className="mt-7 space-y-4 text-sm leading-6 text-slate-300"><li>Manage Meta Ads and Google Ads for high-ticket real-estate lead generation, covering campaign setup, optimization, tracking and lead-quality analysis.</li><li>Built the company CRM around lead capture, routing, WhatsApp, SMS and SLA-based follow-up.</li><li>Develop and optimize the WordPress website, UTM/event tracking, landing pages, technical SEO, dashboards and automation workflows.</li><li>Create advertising assets using Photoshop and AI-assisted production workflows and build reporting or scheduled scripts when recurring work can be automated.</li></ul></motion.article>
             <motion.article {...reveal} className="card-panel p-7 md:p-9"><div className="text-sm font-semibold text-cyan-300">Jan 2021 – Mar 2025</div><h3 className="mt-3 font-display text-2xl font-semibold text-white">Freelance Digital Marketing Specialist & Website Manager</h3><div className="mt-1 text-slate-400">Remote</div><ul className="mt-7 space-y-4 text-sm leading-6 text-slate-300"><li>Managed websites using WordPress, Shopify, Joomla and Drupal.</li><li>Worked on technical SEO, on-page optimization, content, landing pages and site performance.</li><li>Managed paid campaigns, lead-generation funnels and tracking setup.</li><li>Combined marketing work with CRM, API and workflow automation where needed.</li></ul></motion.article>
           </div></div>
         </section>
