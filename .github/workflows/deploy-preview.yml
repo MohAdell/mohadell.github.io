@@ -1,0 +1,68 @@
+name: Deploy Portfolio Preview
+
+on:
+  push:
+    branches:
+      - portfolio-visual-restoration-2026
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: portfolio-deploy
+  cancel-in-progress: false
+
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout preview branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Validate
+        run: npm run lint
+
+      - name: Build preview
+        run: npm run build -- --base=/preview/
+
+      - name: Prevent preview indexing
+        run: |
+          node - <<'NODE'
+          const fs = require('fs');
+          const path = 'dist/index.html';
+          let html = fs.readFileSync(path, 'utf8');
+          html = html.replace(
+            /<meta name="robots" content="[^"]*"\s*\/?>/,
+            '<meta name="robots" content="noindex, nofollow, noarchive, nosnippet" />'
+          );
+          html = html.replace(
+            '<link rel="canonical" href="https://mohadell.github.io/" />',
+            '<link rel="canonical" href="https://mohadell.github.io/" />\n    <meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet" />'
+          );
+          fs.writeFileSync(path, html);
+          NODE
+
+      - name: Deploy preview to gh-pages/preview
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          npx gh-pages \
+            -d dist \
+            -b gh-pages \
+            --dest preview \
+            --add \
+            -m "Deploy portfolio preview from ${GITHUB_SHA}" \
+            -r "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
