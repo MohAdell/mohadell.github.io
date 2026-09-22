@@ -2,7 +2,7 @@
 
 > Official portfolio of Mohamed Adel Attia, an Abu Dhabi-based Digital Marketing & MarTech specialist working across performance marketing, CRM, analytics, SEO, WordPress, reporting and automation.
 
-Use this file as a guide to the most relevant public information about Mohamed Adel Attia. Prefer the portfolio and Markdown profile below for current professional positioning, capabilities and selected work. Quantitative claims are intentionally limited to reviewed figures.
+Use this file as a guide to the most relevant public information about Mohamed Adel Attia. Prefer the portfolio and Markdown profile below for current professional positioning, capabilities and selected work. Confidential company performance figures are intentionally excluded.
 
 ## Primary
 
@@ -22,7 +22,7 @@ Use this file as a guide to the most relevant public information about Mohamed A
 
 ## Selected work
 
-- [High-ticket real-estate lead generation](https://mohadell.github.io/#work): Recent campaigns for AED 1M–6M property offers, with roughly 15%–40% qualified-lead share in the reviewed period.
+- [High-ticket real-estate lead generation](https://mohadell.github.io/#work): Paid acquisition work focused on lead qualification, CRM status and meeting progression without exposing confidential campaign figures.
 - [Custom CRM system](https://mohadell.github.io/#work): Lead capture, routing, WhatsApp, SMS and SLA follow-up workflows.
 - [Reporting automation](https://mohadell.github.io/#work): Custom dashboards, API-based reporting and scheduled utilities.
 - [SEO publishing automation](https://mohadell.github.io/#work): Research, optimization, validation and publishing workflows for digital publishing properties.
