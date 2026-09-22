@@ -1,8 +1,6 @@
-import { useEffect, useMemo, useRef, useState, type MouseEvent as ReactMouseEvent, type ReactNode } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
   motion,
-  useMotionTemplate,
-  useMotionValue,
   useReducedMotion,
   useScroll,
   useSpring,
@@ -81,7 +79,6 @@ const capabilities = [
 
 const projects = [
   {
-    number: '01',
     tag: 'REAL ESTATE · PERFORMANCE',
     title: 'High-ticket lead generation for AED 1M–6M properties',
     challenge: 'Generate volume for high-value property offers without treating every lead as equally useful.',
@@ -94,7 +91,6 @@ const projects = [
       'Across recent three-month campaigns, roughly 15%–40% of total leads were qualified, with qualified prospects progressing to online and in-person meetings.',
   },
   {
-    number: '02',
     tag: 'REAL ESTATE · CRM',
     title: 'Custom lead-management system',
     challenge: 'Bring lead capture, distribution, communication and follow-up into one operational flow.',
@@ -107,7 +103,6 @@ const projects = [
       'Lead capture, assignment, communication and follow-up now run through one connected operational flow.',
   },
   {
-    number: '03',
     tag: 'REPORTING · AUTOMATION',
     title: 'Dashboards, APIs and scheduled utilities',
     challenge: 'Reduce repetitive reporting and data-processing work without turning reporting into a separate full-time process.',
@@ -120,7 +115,6 @@ const projects = [
       'Recurring reporting and data-processing tasks became easier to repeat without unnecessary manual steps.',
   },
   {
-    number: '04',
     tag: 'SEO · CONTENT OPERATIONS',
     title: 'SEO content and publishing automation',
     challenge: 'Create a repeatable publishing workflow without losing the checks needed for useful search content.',
@@ -175,17 +169,17 @@ const journey = [
 
 const differentiators = [
   {
-    number: '01',
+    icon: Target,
     title: 'Marketing + technical ownership',
     text: 'I can manage acquisition and also implement the tracking, CRM, website or automation work the funnel needs.',
   },
   {
-    number: '02',
+    icon: BarChart3,
     title: 'Lead quality over empty volume',
     text: 'Campaign decisions are connected to qualification and downstream CRM status, not only clicks or raw lead counts.',
   },
   {
-    number: '03',
+    icon: Workflow,
     title: 'Automate the repeatable work',
     text: 'When a process repeats, I look for a reliable API, webhook, workflow or scheduled-script path instead of adding manual steps.',
   },
@@ -218,103 +212,6 @@ function SectionHeading({
       <h2 className="section-title">{title}</h2>
       {text ? <p className="section-copy">{text}</p> : null}
     </motion.div>
-  );
-}
-
-function TiltCard({
-  children,
-  className = '',
-}: {
-  children: ReactNode;
-  className?: string;
-}) {
-  const ref = useRef<HTMLDivElement>(null);
-  const reduceMotion = useReducedMotion();
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  const springX = useSpring(x, { stiffness: 260, damping: 28 });
-  const springY = useSpring(y, { stiffness: 260, damping: 28 });
-  const rotateX = useTransform(springY, [-0.5, 0.5], ['7deg', '-7deg']);
-  const rotateY = useTransform(springX, [-0.5, 0.5], ['-7deg', '7deg']);
-  const glareX = useTransform(springX, [-0.5, 0.5], [85, 15]);
-  const glareY = useTransform(springY, [-0.5, 0.5], [85, 15]);
-  const glare = useMotionTemplate`radial-gradient(circle at ${glareX}% ${glareY}%, rgba(103,232,249,.14), transparent 55%)`;
-
-  const handleMove = (event: ReactMouseEvent<HTMLDivElement>) => {
-    if (!ref.current || reduceMotion) return;
-    const rect = ref.current.getBoundingClientRect();
-    x.set((event.clientX - rect.left) / rect.width - 0.5);
-    y.set((event.clientY - rect.top) / rect.height - 0.5);
-  };
-
-  const reset = () => {
-    x.set(0);
-    y.set(0);
-  };
-
-  return (
-    <motion.div
-      ref={ref}
-      onMouseMove={handleMove}
-      onMouseLeave={reset}
-      style={reduceMotion ? undefined : { rotateX, rotateY }}
-      className={`perspective-1000 ${className}`}
-    >
-      <div className="preserve-3d relative h-full">
-        <motion.div
-          aria-hidden="true"
-          style={reduceMotion ? undefined : { background: glare }}
-          className="pointer-events-none absolute inset-0 z-20 rounded-[inherit] opacity-0 transition-opacity duration-500 group-hover:opacity-100"
-        />
-        {children}
-      </div>
-    </motion.div>
-  );
-}
-
-function MagneticLink({
-  children,
-  href,
-  className = '',
-  target,
-  rel,
-}: {
-  children: ReactNode;
-  href: string;
-  className?: string;
-  target?: string;
-  rel?: string;
-}) {
-  const ref = useRef<HTMLAnchorElement>(null);
-  const reduceMotion = useReducedMotion();
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  const springX = useSpring(x, { stiffness: 180, damping: 18 });
-  const springY = useSpring(y, { stiffness: 180, damping: 18 });
-
-  const move = (event: ReactMouseEvent<HTMLAnchorElement>) => {
-    if (!ref.current || reduceMotion) return;
-    const rect = ref.current.getBoundingClientRect();
-    x.set((event.clientX - rect.left - rect.width / 2) * 0.14);
-    y.set((event.clientY - rect.top - rect.height / 2) * 0.14);
-  };
-
-  return (
-    <motion.a
-      ref={ref}
-      href={href}
-      target={target}
-      rel={rel}
-      onMouseMove={move}
-      onMouseLeave={() => {
-        x.set(0);
-        y.set(0);
-      }}
-      style={reduceMotion ? undefined : { x: springX, y: springY }}
-      className={className}
-    >
-      {children}
-    </motion.a>
   );
 }
 
@@ -412,18 +309,14 @@ export default function App() {
   const progress = useSpring(scrollYProgress, { stiffness: 140, damping: 28, mass: 0.2 });
   const heroY = useTransform(scrollYProgress, [0, 0.22], [0, 85]);
   const heroOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0.18]);
-  const pointerX = useMotionValue(0);
-  const pointerY = useMotionValue(0);
-  const spotlight = useMotionTemplate`radial-gradient(720px circle at ${pointerX}px ${pointerY}px, rgba(34,211,238,.07), transparent 42%)`;
 
   useEffect(() => {
-    const onMove = (event: MouseEvent) => {
-      pointerX.set(event.clientX);
-      pointerY.set(event.clientY);
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setMobileOpen(false);
     };
-    window.addEventListener('pointermove', onMove, { passive: true });
-    return () => window.removeEventListener('pointermove', onMove);
-  }, [pointerX, pointerY]);
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, []);
 
   const nav = [
     ['About', '#about'],
@@ -434,28 +327,16 @@ export default function App() {
 
   return (
     <div className="min-h-screen overflow-x-hidden bg-[#020817] text-slate-100">
+      <a href="#main-content" className="skip-link">Skip to main content</a>
       <motion.div
         className="fixed left-0 top-0 z-[70] h-[2px] origin-left bg-gradient-to-r from-emerald-300 via-cyan-300 to-blue-400"
         style={{ scaleX: progress, width: '100%' }}
       />
 
-      <motion.div
-        aria-hidden="true"
-        className="pointer-events-none fixed inset-0 z-40 hidden md:block"
-        style={reduceMotion ? undefined : { background: spotlight }}
-      />
       <div aria-hidden="true" className="bg-noise pointer-events-none fixed inset-0 z-30 opacity-[0.025] mix-blend-overlay" />
       <div aria-hidden="true" className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
-        <motion.div
-          className="absolute -left-48 -top-40 h-[620px] w-[620px] rounded-full bg-emerald-500/10 blur-[130px]"
-          animate={reduceMotion ? undefined : { scale: [1, 1.12, 1], opacity: [0.4, 0.75, 0.4] }}
-          transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut' }}
-        />
-        <motion.div
-          className="absolute -right-52 top-[22%] h-[620px] w-[620px] rounded-full bg-cyan-500/10 blur-[130px]"
-          animate={reduceMotion ? undefined : { scale: [1.08, 0.92, 1.08], opacity: [0.35, 0.7, 0.35] }}
-          transition={{ duration: 11, repeat: Infinity, ease: 'easeInOut' }}
-        />
+        <div className="absolute -left-48 -top-40 h-[620px] w-[620px] rounded-full bg-emerald-500/[0.07] blur-[130px]" />
+        <div className="absolute -right-52 top-[22%] h-[620px] w-[620px] rounded-full bg-cyan-500/[0.07] blur-[130px]" />
       </div>
 
       <header className="fixed inset-x-0 top-0 z-60 border-b border-white/[0.07] bg-[#020817]/75 backdrop-blur-2xl">
@@ -467,7 +348,7 @@ export default function App() {
             className="group flex items-center gap-3"
           >
             <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-300 to-cyan-400 text-[#02101a] shadow-[0_0_26px_rgba(52,211,153,.22)] transition-transform duration-300 group-hover:rotate-6 group-hover:scale-105">
-              <Sparkles className="h-4 w-4" />
+              <Sparkles aria-hidden="true" className="h-4 w-4" />
             </span>
             <span className="font-display text-[15px] font-semibold tracking-tight text-white sm:text-base">Mohamed Adel Attia</span>
           </motion.a>
@@ -483,23 +364,23 @@ export default function App() {
                 {label}
               </a>
             ))}
-            <MagneticLink href="#contact" className="nav-cta">
-              Contact
-            </MagneticLink>
+            <a href="#contact" className="nav-cta">Contact</a>
           </motion.nav>
 
           <button
             type="button"
             aria-label={mobileOpen ? 'Close navigation' : 'Open navigation'}
             aria-expanded={mobileOpen}
+            aria-controls="mobile-navigation"
             onClick={() => setMobileOpen((value) => !value)}
-            className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/[0.04] text-white md:hidden"
+            className="flex h-11 w-11 items-center justify-center rounded-xl border border-white/10 bg-white/[0.04] text-white md:hidden"
           >
-            {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            {mobileOpen ? <X aria-hidden="true" className="h-5 w-5" /> : <Menu aria-hidden="true" className="h-5 w-5" />}
           </button>
         </div>
 
         <motion.div
+          id="mobile-navigation"
           initial={false}
           animate={{ height: mobileOpen ? 'auto' : 0, opacity: mobileOpen ? 1 : 0 }}
           className="overflow-hidden border-t border-white/[0.06] bg-[#03101f]/95 md:hidden"
@@ -510,7 +391,7 @@ export default function App() {
                 key={href}
                 href={href}
                 onClick={() => setMobileOpen(false)}
-                className="rounded-xl px-4 py-3 text-sm font-medium text-slate-300 transition hover:bg-white/[0.05] hover:text-white"
+                className="flex min-h-11 items-center rounded-xl px-4 py-3 text-base font-medium text-slate-300 transition-colors duration-200 hover:bg-white/[0.05] hover:text-white"
               >
                 {label}
               </a>
@@ -526,7 +407,7 @@ export default function App() {
         </motion.div>
       </header>
 
-      <main className="relative z-10 pt-20">
+      <main id="main-content" tabIndex={-1} className="relative z-10 pt-20">
         <section id="home" className="relative isolate min-h-[calc(100svh-80px)] overflow-hidden">
           <HeroParticles />
           <OrbitVisual />
@@ -560,19 +441,14 @@ export default function App() {
                 Digital Marketing & MarTech Specialist
               </motion.p>
 
-              <h1 className="mt-5 max-w-5xl font-display text-[clamp(3rem,8vw,6.6rem)] font-semibold leading-[0.98] tracking-[-0.055em] text-white">
-                {['I manage growth', 'campaigns and build', 'the systems behind them.'].map((line, index) => (
-                  <motion.span
-                    key={line}
-                    initial={{ opacity: 0, y: 38, rotateX: -22 }}
-                    animate={{ opacity: 1, y: 0, rotateX: 0 }}
-                    transition={{ delay: 0.08 + index * 0.09, duration: 0.7, type: 'spring', bounce: 0.22 }}
-                    className={`block origin-bottom ${index === 2 ? 'gradient-text' : ''}`}
-                  >
-                    {line}
-                  </motion.span>
-                ))}
-              </h1>
+              <motion.h1
+                initial={{ opacity: 0, y: 32, rotateX: -14 }}
+                animate={{ opacity: 1, y: 0, rotateX: 0 }}
+                transition={{ delay: 0.12, duration: 0.72, type: 'spring', bounce: 0.16 }}
+                className="hero-title mt-5 max-w-5xl font-display text-[clamp(3rem,8vw,6.6rem)] font-semibold leading-[0.98] tracking-[-0.055em] text-white"
+              >
+                I manage growth campaigns and build the <span className="gradient-text">systems behind them.</span>
+              </motion.h1>
 
               <motion.p
                 initial={{ opacity: 0, y: 18 }}
@@ -589,18 +465,18 @@ export default function App() {
                 transition={{ delay: 0.42, duration: 0.55 }}
                 className="mt-9 flex flex-wrap gap-3"
               >
-                <MagneticLink href="#work" className="primary-button">
-                  View selected work <ArrowRight className="h-4 w-4" />
-                </MagneticLink>
-                <MagneticLink href={CONTACT.linkedin} target="_blank" rel="noreferrer" className="secondary-button">
-                  <Linkedin className="h-4 w-4 text-cyan-300" /> LinkedIn
-                </MagneticLink>
-                <MagneticLink href={CONTACT.github} target="_blank" rel="noreferrer" className="secondary-button">
-                  <Github className="h-4 w-4" /> GitHub
-                </MagneticLink>
-                <MagneticLink href={CONTACT.resume} target="_blank" rel="noreferrer" className="secondary-button">
-                  <Download className="h-4 w-4 text-emerald-300" /> Resume
-                </MagneticLink>
+                <a href="#work" className="primary-button">
+                  View selected work <ArrowRight aria-hidden="true" className="h-4 w-4" />
+                </a>
+                <a href={CONTACT.linkedin} target="_blank" rel="noreferrer" className="secondary-button">
+                  <Linkedin aria-hidden="true" className="h-4 w-4 text-cyan-300" /> LinkedIn
+                </a>
+                <a href={CONTACT.github} target="_blank" rel="noreferrer" className="secondary-button">
+                  <Github aria-hidden="true" className="h-4 w-4" /> GitHub
+                </a>
+                <a href={CONTACT.resume} target="_blank" rel="noreferrer" className="secondary-button">
+                  <Download aria-hidden="true" className="h-4 w-4 text-emerald-300" /> Resume
+                </a>
               </motion.div>
 
               <motion.div
@@ -623,7 +499,7 @@ export default function App() {
                     className="group bg-[#071424]/95 p-5 transition-colors hover:bg-[#0a1b2d] sm:p-6"
                   >
                     <div className="font-display text-xl font-semibold text-white transition-colors group-hover:text-emerald-300 sm:text-2xl">{value}</div>
-                    <div className="mt-1.5 text-xs leading-5 text-slate-500 sm:text-sm">{label}</div>
+                    <div className="mt-1.5 text-xs leading-5 text-slate-400 sm:text-sm">{label}</div>
                   </motion.div>
                 ))}
               </motion.div>
@@ -662,15 +538,18 @@ export default function App() {
               ].map(([Icon, title, text], index) => {
                 const Component = Icon as typeof Target;
                 return (
-                  <TiltCard key={String(title)} className={index % 2 ? 'lg:translate-y-8' : ''}>
-                    <div className="group glass-panel h-full rounded-2xl p-5 sm:p-6">
-                      <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-white/10 bg-white/[0.04] text-emerald-300 shadow-[0_0_24px_rgba(52,211,153,.08)] transition duration-300 group-hover:scale-110 group-hover:border-emerald-300/30">
-                        <Component className="h-5 w-5" />
-                      </div>
-                      <h3 className="mt-5 font-display text-base font-semibold text-white sm:text-lg">{String(title)}</h3>
-                      <p className="mt-2 text-xs leading-5 text-slate-500 sm:text-sm">{String(text)}</p>
+                  <motion.div
+                    key={String(title)}
+                    whileHover={reduceMotion ? undefined : { y: -4 }}
+                    transition={{ duration: 0.22 }}
+                    className={`group surface-panel h-full rounded-2xl p-5 sm:p-6 ${index % 2 ? 'lg:translate-y-8' : ''}`}
+                  >
+                    <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-white/10 bg-white/[0.04] text-emerald-300 transition-colors duration-200 group-hover:border-emerald-300/30">
+                      <Component aria-hidden="true" className="h-5 w-5" />
                     </div>
-                  </TiltCard>
+                    <h3 className="mt-5 font-display text-base font-semibold text-white sm:text-lg">{String(title)}</h3>
+                    <p className="mt-2 text-sm leading-6 text-slate-400">{String(text)}</p>
+                  </motion.div>
                 );
               })}
             </div>
@@ -694,16 +573,17 @@ export default function App() {
                   {...reveal}
                   transition={{ duration: 0.55, delay: index * 0.055 }}
                 >
-                  <TiltCard className="h-full">
-                    <article className="group glass-panel relative h-full overflow-hidden rounded-3xl p-7 sm:p-8">
-                      <div className="pointer-events-none absolute -right-12 -top-14 h-40 w-40 rounded-full bg-emerald-400/[0.08] blur-3xl transition duration-500 group-hover:bg-cyan-400/[0.13]" />
-                      <div className="relative flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-slate-900/80 text-emerald-300 transition duration-300 group-hover:-translate-y-1 group-hover:scale-110 group-hover:border-emerald-300/35 group-hover:shadow-[0_0_26px_rgba(52,211,153,.18)]">
-                        <Icon className="h-5 w-5" />
-                      </div>
-                      <h3 className="relative mt-7 font-display text-xl font-semibold text-white">{item.title}</h3>
-                      <p className="relative mt-3 text-sm leading-6 text-slate-400">{item.text}</p>
-                    </article>
-                  </TiltCard>
+                  <motion.article
+                    whileHover={reduceMotion ? undefined : { y: -4 }}
+                    transition={{ duration: 0.22 }}
+                    className="group surface-panel relative h-full overflow-hidden rounded-3xl p-7 sm:p-8"
+                  >
+                    <div className="relative flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-slate-900/80 text-emerald-300 transition-colors duration-200 group-hover:border-emerald-300/35">
+                      <Icon aria-hidden="true" className="h-5 w-5" />
+                    </div>
+                    <h3 className="relative mt-7 font-display text-xl font-semibold text-white">{item.title}</h3>
+                    <p className="relative mt-3 text-base leading-7 text-slate-400">{item.text}</p>
+                  </motion.article>
                 </motion.div>
               );
             })}
@@ -742,10 +622,10 @@ export default function App() {
                       className="journey-step group"
                     >
                       <div className="journey-icon">
-                        <Icon className="h-5 w-5" />
+                        <Icon aria-hidden="true" className="h-5 w-5" />
                       </div>
                       <div className="mt-4 font-display text-base font-semibold text-white">{step.label}</div>
-                      <div className="mt-1.5 text-xs leading-5 text-slate-500">{step.detail}</div>
+                      <div className="mt-1.5 text-xs leading-5 text-slate-400">{step.detail}</div>
                     </motion.div>
                   );
                 })}
@@ -773,9 +653,6 @@ export default function App() {
                   transition={{ duration: 0.62, delay: index * 0.04, ease: [0.22, 1, 0.36, 1] }}
                   className="group relative overflow-hidden rounded-[1.75rem] border border-white/[0.08] bg-[#04101e]/85 p-6 shadow-[0_28px_80px_rgba(0,0,0,.18)] transition duration-500 hover:border-cyan-300/25 sm:p-8 lg:p-10"
                 >
-                  <div className="pointer-events-none absolute -right-4 -top-14 font-display text-[9rem] font-bold leading-none text-white/[0.018] transition-colors duration-500 group-hover:text-cyan-300/[0.045] sm:text-[12rem]">
-                    {project.number}
-                  </div>
                   <div className="relative grid gap-8 lg:grid-cols-[.82fr_1.18fr] lg:gap-12">
                     <div>
                       <div className="inline-flex rounded-full border border-cyan-300/15 bg-cyan-300/[0.06] px-3 py-1.5 text-[10px] font-bold tracking-[0.18em] text-cyan-300 sm:text-xs">
@@ -784,15 +661,15 @@ export default function App() {
                       <h3 className="mt-5 max-w-xl font-display text-2xl font-semibold leading-tight text-white transition-colors duration-300 group-hover:text-cyan-100 sm:text-3xl">
                         {project.title}
                       </h3>
-                      <p className="mt-4 max-w-xl text-sm leading-6 text-slate-400 sm:text-base sm:leading-7">{project.challenge}</p>
+                      <p className="mt-4 max-w-xl text-base leading-7 text-slate-400">{project.challenge}</p>
                     </div>
                     <div className="grid gap-5 md:grid-cols-[1fr_.92fr]">
                       <div>
-                        <div className="mb-4 text-xs font-bold uppercase tracking-[0.16em] text-slate-500">What I built</div>
+                        <div className="mb-4 text-xs font-bold uppercase tracking-[0.16em] text-slate-400">What I built</div>
                         <ul className="space-y-3">
                           {project.points.map((point) => (
-                            <li key={point} className="flex gap-3 text-sm leading-6 text-slate-300">
-                              <CheckCircle2 className="mt-1 h-4 w-4 shrink-0 text-emerald-300" />
+                            <li key={point} className="flex gap-3 text-base leading-7 text-slate-300">
+                              <CheckCircle2 aria-hidden="true" className="mt-1 h-4 w-4 shrink-0 text-emerald-300" />
                               <span>{point}</span>
                             </li>
                           ))}
@@ -800,7 +677,7 @@ export default function App() {
                       </div>
                       <div className="rounded-2xl border border-white/[0.08] bg-white/[0.025] p-5">
                         <div className="text-xs font-bold uppercase tracking-[0.16em] text-emerald-300">Outcome</div>
-                        <p className="mt-3 text-sm leading-6 text-slate-400">{project.result}</p>
+                        <p className="mt-3 text-base leading-7 text-slate-400">{project.result}</p>
                       </div>
                     </div>
                   </div>
@@ -830,7 +707,7 @@ export default function App() {
                   <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-emerald-300/40 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
                   <Icon className="h-5 w-5 text-emerald-300" />
                   <h3 className="mt-5 font-display text-lg font-semibold text-white">{item.title}</h3>
-                  <p className="mt-3 text-sm leading-6 text-slate-400">{item.text}</p>
+                  <p className="mt-3 text-base leading-7 text-slate-400">{item.text}</p>
                 </motion.div>
               );
             })}
@@ -856,7 +733,7 @@ export default function App() {
                 >
                   <div className="flex items-center gap-3">
                     <span className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/[0.04] text-emerald-300 transition group-hover:border-emerald-300/30 group-hover:bg-emerald-300/[0.08]">
-                      <Settings2 className="h-4 w-4" />
+                      <Settings2 aria-hidden="true" className="h-4 w-4" />
                     </span>
                     <h3 className="font-display text-lg font-semibold text-white">{category}</h3>
                   </div>
@@ -894,8 +771,8 @@ export default function App() {
                 <div className="group glass-panel rounded-3xl p-6 sm:p-8">
                   <div className="text-xs font-bold uppercase tracking-[0.16em] text-emerald-300">Apr 2025 – Present</div>
                   <h3 className="mt-3 font-display text-2xl font-semibold text-white">Information Technology Consultant</h3>
-                  <div className="mt-1 text-sm text-slate-500">Digital Marketing & Automation · Oplus Realty · Abu Dhabi</div>
-                  <ul className="mt-6 space-y-3 text-sm leading-6 text-slate-300">
+                  <div className="mt-1 text-sm text-slate-400">Digital Marketing & Automation · Oplus Realty · Abu Dhabi</div>
+                  <ul className="mt-6 space-y-3 text-base leading-7 text-slate-300">
                     <li>Manage Meta Ads and Google Ads for high-ticket real-estate lead generation across five-figure monthly paid-media budgets.</li>
                     <li>Built the company CRM around lead capture, routing, WhatsApp, SMS and SLA-based follow-up.</li>
                     <li>Develop and optimize the WordPress website, UTM/event tracking, landing pages, technical SEO, dashboards and automation workflows.</li>
@@ -915,8 +792,8 @@ export default function App() {
                 <div className="group glass-panel rounded-3xl p-6 sm:p-8">
                   <div className="text-xs font-bold uppercase tracking-[0.16em] text-cyan-300">Jan 2021 – Mar 2025</div>
                   <h3 className="mt-3 font-display text-2xl font-semibold text-white">Freelance Digital Marketing Specialist & Website Manager</h3>
-                  <div className="mt-1 text-sm text-slate-500">Remote</div>
-                  <ul className="mt-6 space-y-3 text-sm leading-6 text-slate-300">
+                  <div className="mt-1 text-sm text-slate-400">Remote</div>
+                  <ul className="mt-6 space-y-3 text-base leading-7 text-slate-300">
                     <li>Managed websites using WordPress, Shopify, Joomla and Drupal.</li>
                     <li>Worked on technical SEO, on-page optimization, content, landing pages and site performance.</li>
                     <li>Managed paid campaigns, lead-generation funnels and tracking setup.</li>
@@ -938,24 +815,26 @@ export default function App() {
               centered
             />
             <div className="grid gap-5 md:grid-cols-3">
-              {differentiators.map((item, index) => (
-                <motion.article
-                  key={item.title}
-                  initial={{ opacity: 0, y: 28 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: '-80px' }}
-                  transition={{ duration: 0.56, delay: index * 0.07 }}
-                  whileHover={reduceMotion ? undefined : { y: -7 }}
-                  className="group glass-panel relative overflow-hidden rounded-3xl p-7 sm:p-8"
-                >
-                  <div className="absolute right-5 top-1 font-display text-7xl font-bold text-white/[0.025] transition-colors duration-300 group-hover:text-emerald-300/[0.06]">{item.number}</div>
-                  <div className="relative flex h-11 w-11 items-center justify-center rounded-full border border-emerald-300/20 bg-emerald-300/[0.07] font-display text-sm font-bold text-emerald-300">
-                    {item.number}
-                  </div>
-                  <h3 className="relative mt-6 font-display text-xl font-semibold text-white">{item.title}</h3>
-                  <p className="relative mt-3 text-sm leading-6 text-slate-400">{item.text}</p>
-                </motion.article>
-              ))}
+              {differentiators.map((item, index) => {
+                const Icon = item.icon;
+                return (
+                  <motion.article
+                    key={item.title}
+                    initial={{ opacity: 0, y: 24 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: '-80px' }}
+                    transition={{ duration: 0.5, delay: index * 0.07 }}
+                    whileHover={reduceMotion ? undefined : { y: -4 }}
+                    className="group surface-panel relative overflow-hidden rounded-3xl p-7 sm:p-8"
+                  >
+                    <div className="relative flex h-11 w-11 items-center justify-center rounded-xl border border-emerald-300/20 bg-emerald-300/[0.07] text-emerald-300">
+                      <Icon aria-hidden="true" className="h-5 w-5" />
+                    </div>
+                    <h3 className="relative mt-6 font-display text-xl font-semibold text-white">{item.title}</h3>
+                    <p className="relative mt-3 text-base leading-7 text-slate-400">{item.text}</p>
+                  </motion.article>
+                );
+              })}
             </div>
           </div>
         </section>
@@ -987,28 +866,28 @@ export default function App() {
             </div>
 
             <div className="mt-9 flex flex-col justify-center gap-3 sm:flex-row sm:flex-wrap">
-              <MagneticLink href={`mailto:${CONTACT.email}`} className="primary-button justify-center">
-                <Mail className="h-4 w-4" /> Email
-              </MagneticLink>
-              <MagneticLink href={CONTACT.whatsapp} target="_blank" rel="noreferrer" className="contact-button justify-center">
-                <MessageCircle className="h-4 w-4 text-[#25D366]" /> WhatsApp
-              </MagneticLink>
-              <MagneticLink href={CONTACT.linkedin} target="_blank" rel="noreferrer" className="contact-button justify-center">
-                <Linkedin className="h-4 w-4 text-cyan-300" /> LinkedIn
-              </MagneticLink>
-              <MagneticLink href={CONTACT.github} target="_blank" rel="noreferrer" className="contact-button justify-center">
-                <Github className="h-4 w-4" /> GitHub
-              </MagneticLink>
-              <MagneticLink href={CONTACT.resume} target="_blank" rel="noreferrer" className="contact-button justify-center">
-                <Download className="h-4 w-4 text-emerald-300" /> Resume
-              </MagneticLink>
+              <a href={`mailto:${CONTACT.email}`} className="primary-button justify-center">
+                <Mail aria-hidden="true" className="h-4 w-4" /> Email
+              </a>
+              <a href={CONTACT.whatsapp} target="_blank" rel="noreferrer" className="contact-button justify-center">
+                <MessageCircle aria-hidden="true" className="h-4 w-4 text-[#25D366]" /> WhatsApp
+              </a>
+              <a href={CONTACT.linkedin} target="_blank" rel="noreferrer" className="contact-button justify-center">
+                <Linkedin aria-hidden="true" className="h-4 w-4 text-cyan-300" /> LinkedIn
+              </a>
+              <a href={CONTACT.github} target="_blank" rel="noreferrer" className="contact-button justify-center">
+                <Github aria-hidden="true" className="h-4 w-4" /> GitHub
+              </a>
+              <a href={CONTACT.resume} target="_blank" rel="noreferrer" className="contact-button justify-center">
+                <Download aria-hidden="true" className="h-4 w-4 text-emerald-300" /> Resume
+              </a>
             </div>
           </motion.div>
         </section>
       </main>
 
       <footer className="relative z-10 border-t border-white/[0.06] py-8">
-        <div className="mx-auto flex max-w-7xl flex-col gap-3 px-5 text-center text-xs text-slate-600 sm:px-6 md:flex-row md:items-center md:justify-between md:text-left">
+        <div className="mx-auto flex max-w-7xl flex-col gap-3 px-5 text-center text-xs text-slate-400 sm:px-6 md:flex-row md:items-center md:justify-between md:text-left">
           <span>© {new Date().getFullYear()} Mohamed Adel Attia</span>
           <span>Digital Marketing · MarTech · CRM · SEO · Automation</span>
         </div>
