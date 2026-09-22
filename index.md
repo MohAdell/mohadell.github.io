@@ -9,7 +9,7 @@ I manage growth campaigns and build the systems behind them. My work connects pe
 
 I have 5+ years of digital marketing experience. In my current Abu Dhabi real-estate role, I manage Meta Ads and Google Ads for high-ticket lead generation while also working on the CRM, analytics, website, SEO and follow-up workflows connected to the funnel.
 
-Recent paid-media work has included five-figure monthly budgets and property offers in the AED 1M–6M range. Across the reviewed recent campaign period, roughly 15%–40% of total leads were qualified, with qualified prospects progressing to online and in-person meetings.
+Recent paid-media work has focused on high-ticket UAE real-estate acquisition, with campaign analysis connected to lead qualification and downstream meeting progression.
 
 ## Capabilities
 
@@ -64,9 +64,9 @@ Recent paid-media work has included five-figure monthly budgets and property off
 ## Selected work
 
 ### High-ticket real-estate lead generation
-Managed Meta Ads and Google Ads across five-figure monthly budgets for AED 1M–6M property offers. Campaign decisions covered audience and placement strategy, creatives, lead forms, landing pages, CPL, lead quality and CRM status.
+Managed Meta Ads and Google Ads for high-ticket property campaigns. Campaign decisions covered audience and placement strategy, creatives, lead forms, landing pages, CPL, lead quality and CRM status.
 
-**Reviewed outcome:** roughly 15%–40% of total leads were qualified during the recent campaign period, with qualified prospects progressing to online and in-person meetings.
+**Reviewed outcome:** campaign reporting connected lead qualification with downstream progression, including online and in-person meetings.
 
 ### Custom CRM system
 Built a custom CRM around the sales process, connected Meta lead sources, added WhatsApp and SMS communication flows, and implemented lead routing plus SLA-based follow-up logic.
