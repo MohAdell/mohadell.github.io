@@ -1,5 +1,0 @@
-# Public portfolio: crawling and indexing are allowed.
-User-agent: *
-Allow: /
-
-Sitemap: https://mohadell.github.io/sitemap.xml
