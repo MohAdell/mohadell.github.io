@@ -1,60 +1,34 @@
-# Mohamed Adel Attia - Performance Marketing & SEO Specialist Portfolio
+# Mohamed Adel Attia — Portfolio Refresh 2026
 
-A modern, high-performance personal portfolio website built to showcase expertise in Performance Marketing, Technical SEO, and AI-powered automation.
+Updated React/Vite portfolio aligned with the current CV and actual work across performance marketing, custom CRM systems, analytics, SEO, WordPress, reporting and automation.
 
-![Portfolio Preview](https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1200&auto=format&fit=crop)
+## Key changes
+- Repositioned from "Performance Marketing & SEO Specialist" to "Digital Marketing & MarTech Specialist".
+- Added factual high-ticket lead-generation proof: recent AED 1M–6M campaigns with roughly 15%–40% qualified-lead share and qualified prospects progressing to online/in-person meetings.
+- Added custom CRM work and lead-routing / SLA workflows.
+- Added UTM tracking, conversion events, attribution checks, custom dashboards and API-based reporting.
+- Added n8n, Make, webhooks and scheduled scripts; removed unsupported ad-platform claims.
+- Corrected LinkedIn and WhatsApp links and added the public GitHub profile.
+- Removed frontend Gemini secret injection and unused server dependencies.
+- Added canonical metadata, Open Graph/Twitter metadata and identity links.
+- Added JSON-LD using a WebSite + ProfilePage + Person graph, including current employer and core areas of expertise.
+- Added robots.txt, sitemap.xml, favicon, llms.txt and an LLM-friendly Markdown representation at index.md.
+- Bundled the reviewed resume at public/resume.pdf.
+- Added CI checks for TypeScript, production build, structured-data syntax and required SEO/AI-discovery files.
 
-## 🚀 Features
-- **Modern Tech Stack**: Built with React 18, Vite, and TypeScript.
-- **Stunning UI/UX**: Styled with Tailwind CSS and animated using Framer Motion.
-- **3D Interactions**: Custom tilt cards and magnetic buttons for an immersive experience.
-- **Fully Responsive**: Optimized for all devices and screen sizes.
-- **SEO Optimized**: Complete with meta tags, Open Graph, and Twitter cards.
-- **Accessible**: ARIA attributes and semantic HTML for screen readers.
+## Run
+```bash
+npm install
+npm run dev
+```
 
-## 🛠️ Tech Stack
-- **Framework**: [React](https://reactjs.org/) + [Vite](https://vitejs.dev/)
-- **Language**: [TypeScript](https://www.typescriptlang.org/)
-- **Styling**: [Tailwind CSS](https://tailwindcss.com/)
-- **Animations**: [Framer Motion](https://www.framer.com/motion/)
-- **Icons**: [Lucide React](https://lucide.dev/)
+## Validate
+```bash
+npm run lint
+npm run build
+```
 
-## 💻 Getting Started
-
-### Prerequisites
-- Node.js (v18 or higher)
-- npm or yarn
-
-### Installation
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/yourusername/mohamed-portfolio.git
-   ```
-2. Navigate to the project directory:
-   ```bash
-   cd mohamed-portfolio
-   ```
-3. Install dependencies:
-   ```bash
-   npm install
-   ```
-4. Start the development server:
-   ```bash
-   npm run dev
-   ```
-
-## 📦 Deployment
-This project is ready to be deployed to platforms like Vercel, Netlify, or GitHub Pages.
-
-1. **Vercel / Netlify**:
-   - Connect your GitHub repository.
-   - Build Command: `npm run build`
-   - Output Directory: `dist`
-   - Framework Preset: `Vite`
-
-2. **GitHub Pages**:
-   - Update `vite.config.ts` to include `base: '/mohamed-portfolio/'`.
-   - Use the `gh-pages` package or GitHub Actions to deploy the `dist` folder.
-
-## 📄 License
-This project is licensed under the MIT License.
+## Deploy
+```bash
+npm run deploy
+```
