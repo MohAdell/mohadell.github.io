@@ -8,7 +8,6 @@ import {
 } from 'motion/react';
 import {
   ArrowRight,
-  ArrowUpRight,
   BarChart3,
   CheckCircle2,
   Code2,
@@ -333,7 +332,6 @@ export default function App() {
         style={{ scaleX: progress, width: '100%' }}
       />
 
-      <div aria-hidden="true" className="bg-noise pointer-events-none fixed inset-0 z-30 opacity-[0.025] mix-blend-overlay" />
       <div aria-hidden="true" className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
         <div className="absolute -left-48 -top-40 h-[620px] w-[620px] rounded-full bg-emerald-500/[0.07] blur-[130px]" />
         <div className="absolute -right-52 top-[22%] h-[620px] w-[620px] rounded-full bg-cyan-500/[0.07] blur-[130px]" />
@@ -655,7 +653,7 @@ export default function App() {
                 >
                   <div className="relative grid gap-8 lg:grid-cols-[.82fr_1.18fr] lg:gap-12">
                     <div>
-                      <div className="inline-flex rounded-full border border-cyan-300/15 bg-cyan-300/[0.06] px-3 py-1.5 text-[10px] font-bold tracking-[0.18em] text-cyan-300 sm:text-xs">
+                      <div className="inline-flex rounded-full border border-cyan-300/15 bg-cyan-300/[0.06] px-3 py-1.5 text-xs font-bold tracking-[0.18em] text-cyan-300">
                         {project.tag}
                       </div>
                       <h3 className="mt-5 max-w-xl font-display text-2xl font-semibold leading-tight text-white transition-colors duration-300 group-hover:text-cyan-100 sm:text-3xl">
@@ -702,7 +700,7 @@ export default function App() {
                   {...reveal}
                   transition={{ duration: 0.5, delay: index * 0.055 }}
                   whileHover={reduceMotion ? undefined : { y: -7 }}
-                  className="group glass-panel relative overflow-hidden rounded-2xl p-6"
+                  className="group surface-panel relative overflow-hidden rounded-2xl p-6"
                 >
                   <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-emerald-300/40 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
                   <Icon className="h-5 w-5 text-emerald-300" />
@@ -729,7 +727,7 @@ export default function App() {
                   {...reveal}
                   transition={{ duration: 0.48, delay: index * 0.04 }}
                   whileHover={reduceMotion ? undefined : { y: -5 }}
-                  className="group glass-panel rounded-3xl p-6 sm:p-7"
+                  className="group surface-panel rounded-3xl p-6 sm:p-7"
                 >
                   <div className="flex items-center gap-3">
                     <span className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/[0.04] text-emerald-300 transition group-hover:border-emerald-300/30 group-hover:bg-emerald-300/[0.08]">
@@ -768,7 +766,7 @@ export default function App() {
                 className="relative pl-11 md:w-1/2 md:pr-12 md:pl-0"
               >
                 <span className="timeline-dot left-[8px] md:left-auto md:right-[-8px]" />
-                <div className="group glass-panel rounded-3xl p-6 sm:p-8">
+                <div className="group surface-panel rounded-3xl p-6 sm:p-8">
                   <div className="text-xs font-bold uppercase tracking-[0.16em] text-emerald-300">Apr 2025 – Present</div>
                   <h3 className="mt-3 font-display text-2xl font-semibold text-white">Information Technology Consultant</h3>
                   <div className="mt-1 text-sm text-slate-400">Digital Marketing & Automation · Oplus Realty · Abu Dhabi</div>
@@ -789,7 +787,7 @@ export default function App() {
                 className="relative pl-11 md:ml-auto md:w-1/2 md:pl-12"
               >
                 <span className="timeline-dot left-[8px] md:left-[-8px]" />
-                <div className="group glass-panel rounded-3xl p-6 sm:p-8">
+                <div className="group surface-panel rounded-3xl p-6 sm:p-8">
                   <div className="text-xs font-bold uppercase tracking-[0.16em] text-cyan-300">Jan 2021 – Mar 2025</div>
                   <h3 className="mt-3 font-display text-2xl font-semibold text-white">Freelance Digital Marketing Specialist & Website Manager</h3>
                   <div className="mt-1 text-sm text-slate-400">Remote</div>
