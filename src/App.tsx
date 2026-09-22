@@ -36,11 +36,11 @@ const CONTACT = {
   resume: '/resume.pdf',
 };
 
-const stats = [
-  ['5+ years', 'Digital marketing experience'],
-  ['Paid media', 'Campaign ownership & optimization'],
-  ['Lead quality', 'Qualification tracked beyond raw volume'],
-  ['High-ticket', 'UAE real-estate acquisition'],
+const heroProof = [
+  ['Experience', '5+ years across marketing and digital systems'],
+  ['Paid acquisition', 'Campaign strategy, launch and optimization'],
+  ['Lead operations', 'Qualification, CRM status and follow-up'],
+  ['MarTech', 'Tracking, integrations and automation'],
 ];
 
 const capabilities = [
@@ -262,41 +262,69 @@ function HeroParticles() {
   );
 }
 
-function OrbitVisual() {
+function GrowthSystemVisual() {
   const reduceMotion = useReducedMotion();
+  const nodes = [
+    { label: 'Acquisition', short: 'ADS', left: '14%', top: '54%', depth: 34 },
+    { label: 'Measurement', short: 'DATA', left: '34%', top: '18%', depth: 58 },
+    { label: 'CRM', short: 'CRM', left: '66%', top: '18%', depth: 72 },
+    { label: 'Operations', short: 'OPS', left: '86%', top: '54%', depth: 46 },
+    { label: 'Follow-up', short: 'FOLLOW', left: '50%', top: '84%', depth: 84 },
+  ];
 
   return (
-    <div
-      className="pointer-events-none absolute right-[-150px] top-[24%] hidden h-[540px] w-[540px] lg:block"
-      aria-hidden="true"
-    >
-      <motion.div
-        className="relative h-full w-full preserve-3d"
-        animate={reduceMotion ? undefined : { rotateX: [0, 360], rotateY: [0, 360] }}
-        transition={{ duration: 48, repeat: Infinity, ease: 'linear' }}
-      >
-        {[
-          'rotateX(72deg)',
-          'rotateY(72deg)',
-          'rotateX(42deg) rotateY(42deg)',
-          'rotateX(-42deg) rotateY(35deg)',
-        ].map((transform, index) => (
-          <div
-            key={transform}
-            className={`absolute inset-[11%] rounded-full border ${index % 2 === 0 ? 'border-emerald-300/20' : 'border-cyan-300/20'}`}
-            style={{ transform }}
-          >
-            <span
-              className={`absolute left-1/2 top-0 h-2.5 w-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full ${index % 2 === 0 ? 'bg-emerald-300' : 'bg-cyan-300'} shadow-[0_0_18px_currentColor]`}
-            />
-          </div>
-        ))}
+    <div className="growth-system-visual" aria-hidden="true">
+      <div className="growth-system-stage">
         <motion.div
-          className="absolute left-1/2 top-1/2 h-48 w-48 -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-tr from-emerald-400/20 via-cyan-400/15 to-blue-500/20 blur-3xl"
-          animate={reduceMotion ? undefined : { scale: [1, 1.18, 1], opacity: [0.45, 0.8, 0.45] }}
-          transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
-        />
-      </motion.div>
+          className="growth-system-scene"
+          animate={reduceMotion ? undefined : { y: [0, -8, 0], rotateZ: [-0.8, 0.8, -0.8] }}
+          transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut' }}
+        >
+          <div className="growth-system-grid" />
+          <svg className="growth-system-links" viewBox="0 0 100 100" preserveAspectRatio="none">
+            <path d="M14 54 L34 18 L66 18 L86 54 L50 84 Z" />
+            <path d="M14 54 L50 50 L86 54" />
+            <path d="M34 18 L50 50 L50 84" />
+            <path d="M66 18 L50 50" />
+          </svg>
+
+          <div className="growth-system-core">
+            <span>Growth</span>
+            <strong>System</strong>
+          </div>
+
+          {nodes.map((node, index) => (
+            <motion.div
+              key={node.label}
+              className="growth-system-node"
+              style={{
+                left: node.left,
+                top: node.top,
+                transform: `translate(-50%, -50%) translateZ(${node.depth}px)`,
+              }}
+              animate={reduceMotion ? undefined : { y: [0, index % 2 === 0 ? -4 : 4, 0] }}
+              transition={{ duration: 4.5 + index * 0.35, repeat: Infinity, ease: 'easeInOut' }}
+            >
+              <span>{node.short}</span>
+              <small>{node.label}</small>
+            </motion.div>
+          ))}
+
+          <motion.span
+            className="growth-system-pulse growth-system-pulse-a"
+            animate={reduceMotion ? undefined : { opacity: [0.15, 1, 0.15], scale: [0.75, 1.2, 0.75] }}
+            transition={{ duration: 2.8, repeat: Infinity, ease: 'easeInOut' }}
+          />
+          <motion.span
+            className="growth-system-pulse growth-system-pulse-b"
+            animate={reduceMotion ? undefined : { opacity: [1, 0.15, 1], scale: [1.2, 0.75, 1.2] }}
+            transition={{ duration: 3.2, repeat: Infinity, ease: 'easeInOut' }}
+          />
+        </motion.div>
+      </div>
+      <div className="growth-system-caption">
+        <span>Acquisition</span><i /><span>Data</span><i /><span>CRM</span><i /><span>Automation</span>
+      </div>
     </div>
   );
 }
@@ -345,9 +373,7 @@ export default function App() {
             animate={{ opacity: 1, x: 0 }}
             className="group flex items-center gap-3"
           >
-            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-300 to-cyan-400 text-[#02101a] shadow-[0_0_26px_rgba(52,211,153,.22)] transition-transform duration-300 group-hover:rotate-6 group-hover:scale-105">
-              <Sparkles aria-hidden="true" className="h-4 w-4" />
-            </span>
+            <span className="brand-mark" aria-hidden="true">MA</span>
             <span className="font-display text-[15px] font-semibold tracking-tight text-white sm:text-base">Mohamed Adel Attia</span>
           </motion.a>
 
@@ -408,7 +434,7 @@ export default function App() {
       <main id="main-content" tabIndex={-1} className="relative z-10 pt-20">
         <section id="home" className="relative isolate min-h-[calc(100svh-80px)] overflow-hidden">
           <HeroParticles />
-          <OrbitVisual />
+          <GrowthSystemVisual />
           <div className="hero-grid pointer-events-none absolute inset-0 opacity-55" aria-hidden="true" />
           <div className="pointer-events-none absolute inset-x-0 bottom-0 h-44 bg-gradient-to-b from-transparent to-[#020817]" aria-hidden="true" />
 
@@ -416,17 +442,14 @@ export default function App() {
             style={reduceMotion ? undefined : { y: heroY, opacity: heroOpacity }}
             className="relative mx-auto flex min-h-[calc(100svh-80px)] max-w-7xl items-center px-5 py-16 sm:px-6 sm:py-24"
           >
-            <div className="max-w-5xl">
+            <div className="max-w-[800px] xl:max-w-[860px]">
               <motion.div
                 initial={{ opacity: 0, scale: 0.92 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.55 }}
                 className="availability-badge"
               >
-                <span className="relative flex h-2 w-2">
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-300 opacity-70" />
-                  <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-300" />
-                </span>
+                <span className="inline-flex h-2 w-2 rounded-full bg-emerald-300 shadow-[0_0_12px_rgba(110,231,183,.55)]" />
                 Abu Dhabi, UAE · Open to relevant opportunities
               </motion.div>
 
@@ -443,7 +466,7 @@ export default function App() {
                 initial={{ opacity: 0, y: 32, rotateX: -14 }}
                 animate={{ opacity: 1, y: 0, rotateX: 0 }}
                 transition={{ delay: 0.12, duration: 0.72, type: 'spring', bounce: 0.16 }}
-                className="hero-title mt-5 max-w-5xl font-display text-[clamp(3rem,8vw,6.6rem)] font-semibold leading-[0.98] tracking-[-0.055em] text-white"
+                className="hero-title mt-5 max-w-[850px] font-display text-[clamp(3rem,7vw,5.9rem)] font-semibold leading-[0.99] tracking-[-0.052em] text-white"
               >
                 I manage growth campaigns and build the <span className="gradient-text">systems behind them.</span>
               </motion.h1>
@@ -477,28 +500,18 @@ export default function App() {
                 </a>
               </motion.div>
 
+
               <motion.div
-                initial="hidden"
-                animate="show"
-                variants={{
-                  hidden: { opacity: 0 },
-                  show: { opacity: 1, transition: { delayChildren: 0.54, staggerChildren: 0.08 } },
-                }}
-                className="mt-14 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.08] lg:grid-cols-4"
+                initial={{ opacity: 0, y: 18 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.54, duration: 0.6 }}
+                className="hero-proof"
               >
-                {stats.map(([value, label]) => (
-                  <motion.div
-                    key={label}
-                    variants={{
-                      hidden: { opacity: 0, y: 18 },
-                      show: { opacity: 1, y: 0, transition: { type: 'spring', stiffness: 110 } },
-                    }}
-                    whileHover={reduceMotion ? undefined : { y: -4 }}
-                    className="group bg-[#071424]/95 p-5 transition-colors hover:bg-[#0a1b2d] sm:p-6"
-                  >
-                    <div className="font-display text-xl font-semibold text-white transition-colors group-hover:text-emerald-300 sm:text-2xl">{value}</div>
-                    <div className="mt-1.5 text-xs leading-5 text-slate-400 sm:text-sm">{label}</div>
-                  </motion.div>
+                {heroProof.map(([label, text]) => (
+                  <div key={label} className="hero-proof-item">
+                    <span className="hero-proof-label">{label}</span>
+                    <span className="hero-proof-copy">{text}</span>
+                  </div>
                 ))}
               </motion.div>
             </div>
@@ -506,7 +519,7 @@ export default function App() {
         </section>
 
         <section id="about" className="relative overflow-hidden py-24 sm:py-28 lg:py-32">
-          <div className="absolute inset-0 -skew-y-2 bg-[#071424]/72" aria-hidden="true" />
+          <div className="absolute inset-0 bg-[#071424]/72" aria-hidden="true" />
           <div className="pointer-events-none absolute -left-32 top-1/3 h-96 w-96 rounded-full bg-emerald-500/[0.07] blur-[100px]" aria-hidden="true" />
           <div className="relative mx-auto grid max-w-7xl gap-14 px-5 sm:px-6 lg:grid-cols-[1.05fr_.95fr] lg:items-center lg:gap-20">
             <motion.div
@@ -540,7 +553,7 @@ export default function App() {
                     key={String(title)}
                     whileHover={reduceMotion ? undefined : { y: -4 }}
                     transition={{ duration: 0.22 }}
-                    className={`group surface-panel h-full rounded-2xl p-5 sm:p-6 ${index % 2 ? 'lg:translate-y-8' : ''}`}
+                    className="group surface-panel h-full rounded-2xl p-5 sm:p-6"
                   >
                     <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-white/10 bg-white/[0.04] text-emerald-300 transition-colors duration-200 group-hover:border-emerald-300/30">
                       <Component aria-hidden="true" className="h-5 w-5" />
@@ -562,7 +575,7 @@ export default function App() {
             centered
           />
 
-          <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+          <div className="capability-grid">
             {capabilities.map((item, index) => {
               const Icon = item.icon;
               return (
@@ -574,13 +587,15 @@ export default function App() {
                   <motion.article
                     whileHover={reduceMotion ? undefined : { y: -4 }}
                     transition={{ duration: 0.22 }}
-                    className="group surface-panel relative h-full overflow-hidden rounded-3xl p-7 sm:p-8"
+                    className="capability-row group"
                   >
-                    <div className="relative flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-slate-900/80 text-emerald-300 transition-colors duration-200 group-hover:border-emerald-300/35">
+                    <div className="capability-icon">
                       <Icon aria-hidden="true" className="h-5 w-5" />
                     </div>
-                    <h3 className="relative mt-7 font-display text-xl font-semibold text-white">{item.title}</h3>
-                    <p className="relative mt-3 text-base leading-7 text-slate-400">{item.text}</p>
+                    <div className="capability-copy">
+                      <h3 className="font-display text-xl font-semibold text-white">{item.title}</h3>
+                      <p className="mt-2 text-base leading-7 text-slate-400">{item.text}</p>
+                    </div>
                   </motion.article>
                 </motion.div>
               );
@@ -638,7 +653,7 @@ export default function App() {
             <SectionHeading
               eyebrow="Selected work"
               title="Systems and workflows built around real business needs."
-              text="Selected examples across high-ticket acquisition, CRM, reporting and publishing automation — using numbers only where they are supported."
+              text="Selected examples across high-ticket acquisition, CRM, reporting and publishing automation — described without exposing confidential company performance figures."
             />
 
             <div className="space-y-7">
@@ -746,60 +761,68 @@ export default function App() {
           </div>
         </section>
 
-        <section id="experience" className="relative mx-auto max-w-5xl px-5 py-24 sm:px-6 sm:py-28 lg:py-32">
+        <section id="experience" className="relative mx-auto max-w-7xl px-5 py-24 sm:px-6 sm:py-28 lg:py-32">
           <SectionHeading
             eyebrow="Experience"
-            title="Current role and earlier digital work."
-            text="Marketing stays at the center, with technical implementation used to improve how acquisition and operations work together."
-            centered
+            title="Marketing ownership with technical implementation built in."
+            text="The role has expanded from campaign execution into the systems that connect acquisition, lead operations, websites, tracking and automation."
           />
 
-          <div className="relative mx-auto max-w-4xl">
-            <div className="absolute bottom-0 left-[15px] top-0 w-px bg-gradient-to-b from-emerald-300/40 via-cyan-300/20 to-transparent md:left-1/2" aria-hidden="true" />
-
-            <div className="space-y-12 md:space-y-16">
-              <motion.div
-                initial={{ opacity: 0, x: -30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true, margin: '-70px' }}
-                transition={{ duration: 0.6 }}
-                className="relative pl-11 md:w-1/2 md:pr-12 md:pl-0"
-              >
-                <span className="timeline-dot left-[8px] md:left-auto md:right-[-8px]" />
-                <div className="group surface-panel rounded-3xl p-6 sm:p-8">
-                  <div className="text-xs font-bold uppercase tracking-[0.16em] text-emerald-300">Apr 2025 – Present</div>
-                  <h3 className="mt-3 font-display text-2xl font-semibold text-white">Information Technology Consultant</h3>
-                  <div className="mt-1 text-sm text-slate-400">Digital Marketing & Automation · Oplus Realty · Abu Dhabi</div>
-                  <ul className="mt-6 space-y-3 text-base leading-7 text-slate-300">
-                    <li>Manage Meta Ads and Google Ads for high-ticket real-estate lead generation, covering campaign setup, optimization, tracking and lead-quality analysis.</li>
-                    <li>Built the company CRM around lead capture, routing, WhatsApp, SMS and SLA-based follow-up.</li>
-                    <li>Develop and optimize the WordPress website, UTM/event tracking, landing pages, technical SEO, dashboards and automation workflows.</li>
-                    <li>Create advertising assets using Photoshop and AI-assisted production workflows and build reporting or scheduled scripts when recurring work can be automated.</li>
-                  </ul>
+          <div className="experience-list">
+            <motion.article
+              initial={{ opacity: 0, y: 26 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-80px' }}
+              transition={{ duration: 0.58, ease: [0.22, 1, 0.36, 1] }}
+              className="experience-row"
+            >
+              <div className="experience-meta">
+                <span>Apr 2025 — Present</span>
+                <small>Abu Dhabi, UAE</small>
+              </div>
+              <div className="experience-body">
+                <div className="experience-kicker">Current role · Real estate</div>
+                <h3>Information Technology Consultant</h3>
+                <p className="experience-company">Digital Marketing & Automation · Oplus Realty</p>
+                <div className="experience-scope">
+                  <span>Performance Marketing</span><span>CRM & Lead Ops</span><span>Tracking & SEO</span><span>Automation</span>
                 </div>
-              </motion.div>
+                <ul className="experience-points">
+                  <li>Own Meta Ads and Google Ads for high-ticket real-estate lead generation, from campaign setup and creative direction through tracking and lead-quality analysis.</li>
+                  <li>Designed and built the company CRM around lead capture, routing, Meta lead intake, WhatsApp, SMS and SLA-based follow-up workflows.</li>
+                  <li>Develop and extend the WordPress platform with custom functionality, landing pages, technical SEO, UTM/event tracking and performance improvements.</li>
+                  <li>Build dashboards, API integrations, n8n/Make workflows, webhooks and scheduled scripts to remove repetitive operational work.</li>
+                  <li>Create campaign assets with Photoshop and AI-assisted production workflows while keeping marketing strategy and implementation in one working loop.</li>
+                </ul>
+              </div>
+            </motion.article>
 
-              <motion.div
-                initial={{ opacity: 0, x: 30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true, margin: '-70px' }}
-                transition={{ duration: 0.6 }}
-                className="relative pl-11 md:ml-auto md:w-1/2 md:pl-12"
-              >
-                <span className="timeline-dot left-[8px] md:left-[-8px]" />
-                <div className="group surface-panel rounded-3xl p-6 sm:p-8">
-                  <div className="text-xs font-bold uppercase tracking-[0.16em] text-cyan-300">Jan 2021 – Mar 2025</div>
-                  <h3 className="mt-3 font-display text-2xl font-semibold text-white">Freelance Digital Marketing Specialist & Website Manager</h3>
-                  <div className="mt-1 text-sm text-slate-400">Remote</div>
-                  <ul className="mt-6 space-y-3 text-base leading-7 text-slate-300">
-                    <li>Managed websites using WordPress, Shopify, Joomla and Drupal.</li>
-                    <li>Worked on technical SEO, on-page optimization, content, landing pages and site performance.</li>
-                    <li>Managed paid campaigns, lead-generation funnels and tracking setup.</li>
-                    <li>Combined marketing work with CRM, API and workflow automation where needed.</li>
-                  </ul>
+            <motion.article
+              initial={{ opacity: 0, y: 26 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-80px' }}
+              transition={{ duration: 0.58, delay: 0.06, ease: [0.22, 1, 0.36, 1] }}
+              className="experience-row"
+            >
+              <div className="experience-meta">
+                <span>Jan 2021 — Mar 2025</span>
+                <small>Remote</small>
+              </div>
+              <div className="experience-body">
+                <div className="experience-kicker">Earlier work · Multi-industry</div>
+                <h3>Freelance Digital Marketing Specialist & Website Manager</h3>
+                <p className="experience-company">Digital marketing, websites, SEO and automation</p>
+                <div className="experience-scope">
+                  <span>WordPress & CMS</span><span>SEO</span><span>Paid Media</span><span>Web Operations</span>
                 </div>
-              </motion.div>
-            </div>
+                <ul className="experience-points">
+                  <li>Managed and developed websites across WordPress, Shopify, Joomla and Drupal, including content, landing pages, site performance and technical troubleshooting.</li>
+                  <li>Worked across technical SEO, on-page optimization, keyword strategy and publishing operations for commercial and digital-media properties.</li>
+                  <li>Managed paid campaigns and lead-generation funnels with tracking setup, landing-page optimization and conversion-focused improvements.</li>
+                  <li>Combined marketing work with CRM, APIs and workflow automation where the business needed a technical solution rather than another manual step.</li>
+                </ul>
+              </div>
+            </motion.article>
           </div>
         </section>
 
