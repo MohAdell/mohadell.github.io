@@ -38,9 +38,9 @@ const CONTACT = {
 
 const stats = [
   ['5+ years', 'Digital marketing experience'],
-  ['Five-figure', 'Monthly paid-media budgets'],
-  ['15–40%', 'Qualified-lead share in recent campaigns'],
-  ['AED 1M–6M', 'Recent property ticket range'],
+  ['Paid media', 'Campaign ownership & optimization'],
+  ['Lead quality', 'Qualification tracked beyond raw volume'],
+  ['High-ticket', 'UAE real-estate acquisition'],
 ];
 
 const capabilities = [
@@ -79,15 +79,15 @@ const capabilities = [
 const projects = [
   {
     tag: 'REAL ESTATE · PERFORMANCE',
-    title: 'High-ticket lead generation for AED 1M–6M properties',
+    title: 'High-ticket real-estate lead generation',
     challenge: 'Generate volume for high-value property offers without treating every lead as equally useful.',
     points: [
-      'Meta Ads + Google Ads across five-figure monthly budgets',
+      'Meta Ads + Google Ads across active property campaigns',
       'Audience and placement strategy, creatives, lead forms and landing pages',
       'CPL, lead quality and downstream CRM status tracked together',
     ],
     result:
-      'Across recent three-month campaigns, roughly 15%–40% of total leads were qualified, with qualified prospects progressing to online and in-person meetings.',
+      'Campaign reporting tracked qualification and meeting progression, with qualified prospects moving into online and in-person meetings.',
   },
   {
     tag: 'REAL ESTATE · CRM',
@@ -771,7 +771,7 @@ export default function App() {
                   <h3 className="mt-3 font-display text-2xl font-semibold text-white">Information Technology Consultant</h3>
                   <div className="mt-1 text-sm text-slate-400">Digital Marketing & Automation · Oplus Realty · Abu Dhabi</div>
                   <ul className="mt-6 space-y-3 text-base leading-7 text-slate-300">
-                    <li>Manage Meta Ads and Google Ads for high-ticket real-estate lead generation across five-figure monthly paid-media budgets.</li>
+                    <li>Manage Meta Ads and Google Ads for high-ticket real-estate lead generation, covering campaign setup, optimization, tracking and lead-quality analysis.</li>
                     <li>Built the company CRM around lead capture, routing, WhatsApp, SMS and SLA-based follow-up.</li>
                     <li>Develop and optimize the WordPress website, UTM/event tracking, landing pages, technical SEO, dashboards and automation workflows.</li>
                     <li>Create advertising assets using Photoshop and AI-assisted production workflows and build reporting or scheduled scripts when recurring work can be automated.</li>
