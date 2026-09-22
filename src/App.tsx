@@ -218,7 +218,7 @@ function HeroParticles() {
   const reduceMotion = useReducedMotion();
   const particles = useMemo(
     () =>
-      Array.from({ length: 22 }).map((_, index) => ({
+      Array.from({ length: 14 }).map((_, index) => ({
         id: index,
         size: 1 + ((index * 7) % 4),
         left: `${(index * 37) % 100}%`,
@@ -293,8 +293,8 @@ function GrowthSystemVisual() {
             <strong>System</strong>
           </div>
 
-          {nodes.map((node, index) => (
-            <motion.div
+          {nodes.map((node) => (
+            <div
               key={node.label}
               className="growth-system-node"
               style={{
@@ -302,12 +302,10 @@ function GrowthSystemVisual() {
                 top: node.top,
                 transform: `translate(-50%, -50%) translateZ(${node.depth}px)`,
               }}
-              animate={reduceMotion ? undefined : { y: [0, index % 2 === 0 ? -4 : 4, 0] }}
-              transition={{ duration: 4.5 + index * 0.35, repeat: Infinity, ease: 'easeInOut' }}
             >
               <span>{node.short}</span>
               <small>{node.label}</small>
-            </motion.div>
+            </div>
           ))}
 
           <motion.span
@@ -879,10 +877,7 @@ export default function App() {
             </p>
 
             <div className="availability-badge mx-auto mt-8">
-              <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-300 opacity-70" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-300" />
-              </span>
+              <span className="inline-flex h-2 w-2 rounded-full bg-emerald-300 shadow-[0_0_12px_rgba(110,231,183,.55)]" />
               Available for relevant opportunities
             </div>
 
