@@ -165,6 +165,32 @@ const stack = [
   ['Reporting & Creative', 'Custom Dashboards', 'API Reporting', 'Platform Exports', 'Adobe Photoshop', 'Figma', 'AI-assisted Creative Work'],
 ];
 
+const journey = [
+  { icon: Target, label: 'Acquisition', detail: 'Meta Ads · Google Ads' },
+  { icon: BarChart3, label: 'Measurement', detail: 'UTMs · Events · Attribution' },
+  { icon: Database, label: 'CRM', detail: 'Lead capture · Statuses' },
+  { icon: Workflow, label: 'Operations', detail: 'Routing · SLA · Automation' },
+  { icon: MessageCircle, label: 'Follow-up', detail: 'WhatsApp · SMS · Meetings' },
+];
+
+const differentiators = [
+  {
+    number: '01',
+    title: 'Marketing + technical ownership',
+    text: 'I can manage acquisition and also implement the tracking, CRM, website or automation work the funnel needs.',
+  },
+  {
+    number: '02',
+    title: 'Lead quality over empty volume',
+    text: 'Campaign decisions are connected to qualification and downstream CRM status, not only clicks or raw lead counts.',
+  },
+  {
+    number: '03',
+    title: 'Automate the repeatable work',
+    text: 'When a process repeats, I look for a reliable API, webhook, workflow or scheduled-script path instead of adding manual steps.',
+  },
+];
+
 const reveal = {
   initial: { opacity: 0, y: 28 },
   whileInView: { opacity: 1, y: 0 },
@@ -684,13 +710,57 @@ export default function App() {
           </div>
         </section>
 
+        <section className="relative overflow-hidden border-y border-white/[0.06] bg-[#03101f]/72 py-20 sm:py-24">
+          <div className="pointer-events-none absolute left-1/2 top-1/2 h-[440px] w-[70%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-emerald-500/[0.055] blur-[100px]" aria-hidden="true" />
+          <div className="relative mx-auto max-w-7xl px-5 sm:px-6">
+            <SectionHeading
+              eyebrow="Connected funnel"
+              title="From ad click to sales follow-up, the data should stay connected."
+              text="The technical work is there to support the marketing flow, not to become a separate layer the team has to fight with."
+              centered
+            />
+
+            <div className="journey-shell">
+              <motion.div
+                aria-hidden="true"
+                className="journey-line"
+                initial={{ scaleX: 0 }}
+                whileInView={{ scaleX: 1 }}
+                viewport={{ once: true, margin: '-120px' }}
+                transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
+              />
+              <div className="relative grid gap-4 md:grid-cols-5 md:gap-3">
+                {journey.map((step, index) => {
+                  const Icon = step.icon;
+                  return (
+                    <motion.div
+                      key={step.label}
+                      initial={{ opacity: 0, y: 22 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true, margin: '-80px' }}
+                      transition={{ duration: 0.5, delay: index * 0.09 }}
+                      className="journey-step group"
+                    >
+                      <div className="journey-icon">
+                        <Icon className="h-5 w-5" />
+                      </div>
+                      <div className="mt-4 font-display text-base font-semibold text-white">{step.label}</div>
+                      <div className="mt-1.5 text-xs leading-5 text-slate-500">{step.detail}</div>
+                    </motion.div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        </section>
+
         <section id="work" className="relative overflow-hidden border-y border-white/[0.06] bg-[#061322]/78 py-24 sm:py-28 lg:py-32">
           <div className="pointer-events-none absolute left-1/2 top-1/3 h-[620px] w-[620px] -translate-x-1/2 rounded-full bg-cyan-500/[0.06] blur-[120px]" aria-hidden="true" />
           <div className="relative mx-auto max-w-7xl px-5 sm:px-6">
             <SectionHeading
               eyebrow="Selected work"
               title="Systems and workflows built around real business needs."
-              text="The current version keeps the stronger factual content while restoring the depth, motion and interaction of the original portfolio."
+              text="Selected examples across high-ticket acquisition, CRM, reporting and publishing automation — using numbers only where they are supported."
             />
 
             <div className="space-y-7">
@@ -854,6 +924,38 @@ export default function App() {
                   </ul>
                 </div>
               </motion.div>
+            </div>
+          </div>
+        </section>
+
+        <section className="relative overflow-hidden py-24 sm:py-28 lg:py-32">
+          <div className="pointer-events-none absolute -right-48 top-1/3 h-[520px] w-[520px] rounded-full bg-cyan-500/[0.055] blur-[120px]" aria-hidden="true" />
+          <div className="relative mx-auto max-w-7xl px-5 sm:px-6">
+            <SectionHeading
+              eyebrow="Working style"
+              title="What changes when marketing and implementation sit in the same workflow."
+              text="The advantage is practical: fewer handoffs, cleaner data and faster execution when the funnel needs a technical fix."
+              centered
+            />
+            <div className="grid gap-5 md:grid-cols-3">
+              {differentiators.map((item, index) => (
+                <motion.article
+                  key={item.title}
+                  initial={{ opacity: 0, y: 28 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: '-80px' }}
+                  transition={{ duration: 0.56, delay: index * 0.07 }}
+                  whileHover={reduceMotion ? undefined : { y: -7 }}
+                  className="group glass-panel relative overflow-hidden rounded-3xl p-7 sm:p-8"
+                >
+                  <div className="absolute right-5 top-1 font-display text-7xl font-bold text-white/[0.025] transition-colors duration-300 group-hover:text-emerald-300/[0.06]">{item.number}</div>
+                  <div className="relative flex h-11 w-11 items-center justify-center rounded-full border border-emerald-300/20 bg-emerald-300/[0.07] font-display text-sm font-bold text-emerald-300">
+                    {item.number}
+                  </div>
+                  <h3 className="relative mt-6 font-display text-xl font-semibold text-white">{item.title}</h3>
+                  <p className="relative mt-3 text-sm leading-6 text-slate-400">{item.text}</p>
+                </motion.article>
+              ))}
             </div>
           </div>
         </section>
