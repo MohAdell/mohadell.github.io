@@ -4,7 +4,7 @@ Updated React/Vite portfolio aligned with the current CV and actual work across 
 
 ## Key changes
 - Repositioned from "Performance Marketing & SEO Specialist" to "Digital Marketing & MarTech Specialist".
-- Added factual high-ticket lead-generation proof: recent AED 1M–6M campaigns with roughly 15%–40% qualified-lead share and qualified prospects progressing to online/in-person meetings.
+- Added factual high-ticket lead-generation context focused on qualification and meeting progression without exposing confidential company figures.
 - Added custom CRM work and lead-routing / SLA workflows.
 - Added UTM tracking, conversion events, attribution checks, custom dashboards and API-based reporting.
 - Added n8n, Make, webhooks and scheduled scripts; removed unsupported ad-platform claims.
