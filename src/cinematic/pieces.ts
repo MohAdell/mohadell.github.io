@@ -31,6 +31,8 @@ export interface PieceContext {
   energy: number;
   split: number;
   reduced: boolean;
+  /** Scroll-driven hero lead along the funnel (station index 0..4), null when hidden. */
+  lead: number | null;
 }
 
 export interface Piece {
@@ -521,6 +523,15 @@ export function createFunnelFlow(quality: Quality): Piece {
   group.add(tube.mesh);
 
   const stationU = STATION_POSITIONS.map((p) => track.nearest(new THREE.Vector3(p[0], 0.95, p[2])));
+
+  // The hero lead: one larger bead with a halo that follows the reader's scroll through the funnel.
+  const heroLead = new THREE.Group();
+  const leadCore = new THREE.Mesh(new THREE.SphereGeometry(0.17, 20, 14), glowBasic(PALETTE.cyan, 3));
+  const leadHalo = new THREE.Mesh(new THREE.TorusGeometry(0.34, 0.018, 6, 48), glowBasic(PALETTE.cyan, 2.2));
+  heroLead.add(leadCore, leadHalo);
+  heroLead.visible = false;
+  group.add(heroLead);
+  let leadShown = 0;
   const count = quality.particles;
   const flow = beads(count, 0.075);
   group.add(flow);
@@ -542,8 +553,22 @@ export function createFunnelFlow(quality: Quality): Piece {
     group,
     centre: new THREE.Vector3(0, 1, -2),
     reach: 12,
-    update({ dt, energy, reduced, activity }) {
+    update({ dt, time, energy, reduced, activity, lead }) {
       clock += reduced ? 0 : dt * (0.035 + energy * 0.05);
+      leadShown += ((lead === null ? 0 : 1) - leadShown) * Math.min(1, dt * 5 || 1);
+      heroLead.visible = leadShown > 0.02;
+      if (heroLead.visible) {
+        const step = lead ?? 4;
+        const i = Math.min(3, Math.floor(step));
+        const u = stationU[i] + (stationU[i + 1] - stationU[i]) * (step - i);
+        track.at(u, heroLead.position);
+        heroLead.position.y += 0.35;
+        const tint = step < 2 ? PALETTE.cyan : step < 3.5 ? PALETTE.emerald : PALETTE.gold;
+        (leadCore.material as THREE.MeshBasicMaterial).color.copy(tint).multiplyScalar(3);
+        (leadHalo.material as THREE.MeshBasicMaterial).color.copy(tint).multiplyScalar(2.2);
+        heroLead.scale.setScalar(leadShown * (1 + (reduced ? 0 : Math.sin(time * 4) * 0.08)));
+        leadHalo.lookAt(heroLead.position.clone().add(new THREE.Vector3(0, 0, 1)));
+      }
       tube.uniforms.uTime.value = clock * 16;
       tube.uniforms.uLevel.value = 0.55 + activity * 0.6;
       for (let i = 0; i < count; i++) {

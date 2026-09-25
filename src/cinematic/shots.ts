@@ -22,6 +22,8 @@ export interface Shot {
   /** Explicit visibility for pieces that share the core's space (working-style streams, tool orbits). */
   streams?: number;
   tools?: number;
+  /** Portrait screens only: raise the subject by this fraction of the height (text sits below it). */
+  lift?: number;
 }
 
 const deg = (d: number) => (d * Math.PI) / 180;
@@ -71,6 +73,7 @@ export const SHOTS: Record<string, Shot> = {
     target: [0, 1, 0],
     fov: 36,
     frame: 0.23,
+    lift: 0.27,
     dim: 1,
     split: 0,
     energy: 0.75,
@@ -189,5 +192,6 @@ export function blendShots(a: Shot, b: Shot, t: number): Shot {
     fog: mix(a.fog, b.fog, t),
     streams: mix(a.streams ?? 0, b.streams ?? 0, t),
     tools: mix(a.tools ?? 0, b.tools ?? 0, t),
+    lift: mix(a.lift ?? 0, b.lift ?? 0, t),
   };
 }

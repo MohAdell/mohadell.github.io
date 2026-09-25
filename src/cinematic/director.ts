@@ -18,6 +18,20 @@ const HOLD = 0.24;
 const smootherstep = (t: number) => t * t * t * (t * (t * 6 - 15) + 10);
 
 /**
+ * Position of the hero lead along the connected-funnel section, as a continuous station index
+ * 0..4 (Acquisition → Follow-up), or null while the section is off screen. Shared by the 3D
+ * lead and the journey cards so both always show the same step.
+ */
+export function funnelStep(): number | null {
+  const el = document.getElementById('funnel');
+  if (!el) return null;
+  const rect = el.getBoundingClientRect();
+  const progress = (window.innerHeight - rect.top) / (rect.height + window.innerHeight);
+  if (progress <= 0 || progress >= 1) return null;
+  return clamp01((progress - 0.3) / 0.4) * 4;
+}
+
+/**
  * Maps the page scroll position onto the shot list. Anchors are `[data-shot]` elements in
  * document order; their centres are re-measured whenever the layout changes.
  */

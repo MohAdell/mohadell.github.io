@@ -82,7 +82,7 @@ src/cinematic/
 | P0 | مراجعة + الخطة دي | ✅ |
 | P1 | الأساس: canvas + director + shots + النواة + المحطات + الـ flow + إصلاحات UX | ✅ |
 | P2 | set-pieces المشاريع الأربعة + Systems exploded + الأدوات + السكة الزمنية + التيارات | ✅ |
-| P3 | Cinematic polish: letterbox، chapter rail، grain/vignette ✅ — مزامنة الـ journey steps مع الـ lead البطل، هيرو مخصص للموبايل | ⏳ جزئي |
+| P3 | Cinematic polish: letterbox، chapter rail، grain/vignette، مزامنة الـ journey steps مع الـ lead البطل، هيرو مخصص للموبايل، adaptive quality | ✅ |
 | P4 | الفحص: سكرينشوت لكل مشهد (ديسكتوب/موبايل)، reduced-motion، no-WebGL، حجم الـ bundle | ✅ جولة أولى |
 | P5 | اقتراحات لاحقة: OG image من المشهد، صوت ambient اختياري (off by default)، وضع "director's cut" بتنقّل بالكيبورد | اختياري |
 
@@ -107,7 +107,10 @@ src/cinematic/
 - **النصوص**: مقارنة كل الـ strings في `App.tsx` قبل وبعد: اللي اتغيّر أسماء classes بس.
 - **Bundle**: الـ JS الأساسي 127KB gzip (كان 125KB). three.js والعالم كله chunk لوحده 144KB gzip، بيتحمّل بعد `load` + idle.
 
+### الجولة الثانية (P3)
+- **Hero lead**: `funnelStep()` في `director.ts` هي المصدر الوحيد للقيمة. الـ lead الـ 3D وكروت الـ journey الاتنين بيقروا منها، فمستحيل يختلفوا. اتفحصت عند 3 نقط سكرول: `pA...` ثم `ppA..` ثم `pppA.` (A = النشط، p = اللي اتعدّى).
+- **هيرو الموبايل**: في الوضع الطولي (portrait) الكاميرا بترفع النظام لفوق (`lift` = 27% من الارتفاع)، والنص بيبدأ تحته، وفيه scrim متدرّج.
+- **Adaptive quality**: لو أول 90 فريم متوسطها أقل من 35fps، الـ bloom بيتقفل والـ DPR بينزل لـ 1.
+
 ### لسه مفتوح
-- اختبار أداء على موبايل حقيقي متوسط (FPS) والـ GPU الفعلي.
-- مزامنة كروت الـ journey مع الـ lead البطل (P3).
-- كادر مخصوص للهيرو على الموبايل: المجسم فوق النص بدل ما يكون وراه.
+- قياس FPS على موبايل حقيقي بعد النشر.

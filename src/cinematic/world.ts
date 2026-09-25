@@ -6,7 +6,7 @@ import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
 import { OutputPass } from 'three/examples/jsm/postprocessing/OutputPass.js';
-import { createDirector, type DirectorFrame } from './director';
+import { createDirector, funnelStep, type DirectorFrame } from './director';
 import {
   createConstellation,
   createCore,
@@ -104,6 +104,24 @@ export function createWorld(canvas: HTMLCanvasElement, options: WorldOptions) {
     composer.addPass(new OutputPass());
   }
 
+  // Adaptive quality: if the first seconds run below ~35 fps, drop bloom and render at 1x.
+  let useComposer = true;
+  let sampled = 0;
+  let sampledTime = 0;
+  function watchPerformance(rawDt: number) {
+    if (sampled < 0) return;
+    if (document.hidden || rawDt > 0.5) return;
+    sampled++;
+    sampledTime += rawDt;
+    if (sampled < 90) return;
+    if (sampledTime / sampled > 1 / 35) {
+      useComposer = false;
+      renderer.setPixelRatio(1);
+      resize();
+    }
+    sampled = -1;
+  }
+
   const director = createDirector();
   let width = 1;
   let height = 1;
@@ -135,6 +153,7 @@ export function createWorld(canvas: HTMLCanvasElement, options: WorldOptions) {
   const offset = new THREE.Vector3();
   let fov = 36;
   let frameShift = 0;
+  let frameLift = 0;
   let split = 0;
   let energy = 0.7;
   let first = true;
@@ -174,6 +193,7 @@ export function createWorld(canvas: HTMLCanvasElement, options: WorldOptions) {
     camTarget.lerp(wantTarget, k);
     fov += (shot.fov - fov) * k;
     frameShift += ((narrow || portrait ? 0 : shot.frame) - frameShift) * k;
+    frameLift += ((portrait ? shot.lift ?? 0 : 0) - frameLift) * k;
     split += (shot.split - split) * k;
     energy += (shot.energy - energy) * k;
     fog.density += (shot.fog - fog.density) * k;
@@ -185,10 +205,18 @@ export function createWorld(canvas: HTMLCanvasElement, options: WorldOptions) {
     camera.position.y -= pointer.y * 0.35;
     camera.lookAt(camTarget);
     camera.fov = fov;
-    camera.setViewOffset(width, height, -frameShift * width, 0, width, height);
+    camera.setViewOffset(width, height, -frameShift * width, frameLift * height, width, height);
     camera.updateProjectionMatrix();
 
-    const ctx = { time, dt: options.reduced ? 0 : dt, activity: 0, energy, split, reduced: options.reduced };
+    const ctx = {
+      time,
+      dt: options.reduced ? 0 : dt,
+      activity: 0,
+      energy,
+      split,
+      reduced: options.reduced,
+      lead: funnelStep(),
+    };
     for (const piece of pieces) {
       const d = piece.centre.distanceTo(camTarget);
       ctx.activity = smooth(piece.reach * 1.8, piece.reach * 0.6, d);
@@ -200,8 +228,9 @@ export function createWorld(canvas: HTMLCanvasElement, options: WorldOptions) {
     streams.update(ctx);
     dust.update(time);
 
-    if (composer) composer.render(dt);
+    if (composer && useComposer) composer.render(dt);
     else renderer.render(scene, camera);
+    watchPerformance(rawDt);
 
     // Hand the frame to the page chrome (dim, letterbox, chapter) without re-rendering React.
     const dim = Math.round(shot.dim * 100) / 100;

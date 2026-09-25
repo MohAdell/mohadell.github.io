@@ -29,6 +29,7 @@ import {
 } from 'lucide-react';
 import CinematicStage from './cinematic/CinematicStage';
 import ChapterRail, { type Chapter } from './cinematic/ChapterRail';
+import { funnelStep } from './cinematic/director';
 
 const CONTACT = {
   email: 'info.moadel@gmail.com',
@@ -220,6 +221,31 @@ function useActiveSection(ids: string[]) {
 
 const chapterIds = chapters.map((c) => c.id);
 
+/** Continuous funnel step (0..4) while the connected-funnel section is on screen. */
+function useFunnelStep() {
+  const [step, setStep] = useState<number | null>(null);
+  useEffect(() => {
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      const value = funnelStep();
+      setStep(value === null ? null : Math.round(value * 20) / 20);
+    };
+    const onScroll = () => {
+      if (!frame) frame = requestAnimationFrame(update);
+    };
+    update();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+    };
+  }, []);
+  return step;
+}
+
 const reveal = {
   initial: { opacity: 0, y: 28 },
   whileInView: { opacity: 1, y: 0 },
@@ -371,6 +397,8 @@ export default function App() {
   const heroY = useTransform(scrollYProgress, [0, 0.22], [0, 85]);
   const heroOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0.18]);
   const activeSection = useActiveSection(chapterIds);
+  const leadStep = useFunnelStep();
+  const activeStep = leadStep === null ? -1 : Math.round(leadStep);
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
@@ -479,7 +507,7 @@ export default function App() {
 
           <motion.div
             style={reduceMotion ? undefined : { y: heroY, opacity: heroOpacity }}
-            className="relative mx-auto flex min-h-[calc(100svh-80px)] max-w-7xl items-center px-5 py-16 sm:px-6 sm:py-24"
+            className="hero-content relative mx-auto flex min-h-[calc(100svh-80px)] max-w-7xl items-center px-5 py-16 sm:px-6 sm:py-24"
           >
             <div className="max-w-[800px] xl:max-w-[860px]">
               <motion.div
@@ -653,7 +681,8 @@ export default function App() {
               centered
             />
 
-            <div className="journey-shell">
+            <div className="journey-shell" style={{ '--lead': leadStep === null ? 0 : leadStep / 4 } as CSSProperties}>
+              <div aria-hidden="true" className="journey-progress" />
               <motion.div
                 aria-hidden="true"
                 className="journey-line"
@@ -673,6 +702,8 @@ export default function App() {
                       viewport={{ once: true, margin: '-80px' }}
                       transition={{ duration: 0.5, delay: index * 0.09 }}
                       className="journey-step group"
+                      data-active={index === activeStep ? '' : undefined}
+                      data-passed={activeStep > index ? '' : undefined}
                     >
                       <div className="journey-icon">
                         <Icon aria-hidden="true" className="h-5 w-5" />
