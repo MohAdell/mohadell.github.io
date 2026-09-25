@@ -10,6 +10,10 @@ export interface DirectorFrame {
   progress: number;
   /** Id of the anchor that owns the frame. */
   id: string;
+  /** The cut in progress: from → to at eased position t (from === to while holding). */
+  from: string;
+  to: string;
+  t: number;
 }
 
 const clamp01 = (v: number) => Math.min(1, Math.max(0, v));
@@ -54,16 +58,26 @@ export function createDirector() {
   measure();
 
   function frame(): DirectorFrame {
-    if (anchors.length === 0) return { shot: SHOTS.hero, cut: 0, index: 0, progress: 0, id: 'hero' };
+    if (anchors.length === 0) {
+      return { shot: SHOTS.hero, cut: 0, index: 0, progress: 0, id: 'hero', from: 'hero', to: 'hero', t: 0 };
+    }
+    const hold = (index: number, id: string): DirectorFrame => ({
+      shot: SHOTS[id],
+      cut: 0,
+      index,
+      progress: 0,
+      id,
+      from: id,
+      to: id,
+      t: 0,
+    });
     const focus = window.scrollY + window.innerHeight * 0.5;
     // The first anchor owns the top of the page, the last one owns the bottom.
     const first = anchors[0];
     const last = anchors[anchors.length - 1];
     const atBottom = window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 4;
-    if (focus <= first.centre) return { shot: SHOTS[first.id], cut: 0, index: 0, progress: 0, id: first.id };
-    if (focus >= last.centre || atBottom) {
-      return { shot: SHOTS[last.id], cut: 0, index: anchors.length - 1, progress: 0, id: last.id };
-    }
+    if (focus <= first.centre) return hold(0, first.id);
+    if (focus >= last.centre || atBottom) return hold(anchors.length - 1, last.id);
 
     let i = 0;
     while (i < anchors.length - 2 && focus >= anchors[i + 1].centre) i++;
@@ -77,6 +91,9 @@ export function createDirector() {
       index: t < 0.5 ? i : i + 1,
       progress,
       id: t < 0.5 ? a.id : b.id,
+      from: a.id,
+      to: b.id,
+      t,
     };
   }
 

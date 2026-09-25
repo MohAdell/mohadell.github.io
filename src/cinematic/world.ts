@@ -6,6 +6,7 @@ import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
 import { OutputPass } from 'three/examples/jsm/postprocessing/OutputPass.js';
+import { createAvatar } from './avatar';
 import { createDirector, funnelStep, type DirectorFrame } from './director';
 import {
   createConstellation,
@@ -82,10 +83,13 @@ export function createWorld(canvas: HTMLCanvasElement, options: WorldOptions) {
   const stations = createStations();
   const constellation = createConstellation();
   const streams = createStreams(quality);
+  const funnel = createFunnelFlow(quality);
+  const avatar = createAvatar();
+  scene.add(avatar.group);
   const pieces: Piece[] = [
     core,
     ...stations,
-    createFunnelFlow(quality),
+    funnel,
     createLeadFunnel(quality),
     createCrmRouter(quality),
     createDashboard(),
@@ -226,6 +230,15 @@ export function createWorld(canvas: HTMLCanvasElement, options: WorldOptions) {
     constellation.update(ctx);
     ctx.activity = shot.streams ?? 0;
     streams.update(ctx);
+    avatar.update({
+      frame,
+      lead: ctx.lead,
+      leadPoint: funnel.pointAt,
+      time,
+      dt: ctx.dt,
+      dampDt: options.reduced ? 1 : dampDt,
+      reduced: options.reduced,
+    });
     dust.update(time);
 
     if (composer && useComposer) composer.render(dt);
