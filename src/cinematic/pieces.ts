@@ -506,7 +506,12 @@ export function createStations(): Piece[] {
 // ---------------------------------------------------------------------------------------------
 // Main funnel flow: ad click → stations → meetings, absorbed back into the core.
 
-export function createFunnelFlow(quality: Quality): Piece {
+export interface FunnelPiece extends Piece {
+  /** Point on the funnel path at a continuous station index 0..4 (what the hero lead follows). */
+  pointAt(step: number, out: THREE.Vector3): THREE.Vector3;
+}
+
+export function createFunnelFlow(quality: Quality): FunnelPiece {
   const group = new THREE.Group();
   const [first] = STATION_POSITIONS;
   // Leads arrive from above the Acquisition station (the ad click), then run the funnel.
@@ -548,20 +553,23 @@ export function createFunnelFlow(quality: Quality): Piece {
   const q = new THREE.Quaternion();
   const s = new THREE.Vector3();
   let clock = 0;
+  const pointAt = (step: number, out: THREE.Vector3) => {
+    const i = Math.min(3, Math.max(0, Math.floor(step)));
+    return track.at(stationU[i] + (stationU[i + 1] - stationU[i]) * (Math.min(4, Math.max(0, step)) - i), out);
+  };
 
   return {
     group,
     centre: new THREE.Vector3(0, 1, -2),
     reach: 12,
+    pointAt,
     update({ dt, time, energy, reduced, activity, lead }) {
       clock += reduced ? 0 : dt * (0.035 + energy * 0.05);
       leadShown += ((lead === null ? 0 : 1) - leadShown) * Math.min(1, dt * 5 || 1);
       heroLead.visible = leadShown > 0.02;
       if (heroLead.visible) {
         const step = lead ?? 4;
-        const i = Math.min(3, Math.floor(step));
-        const u = stationU[i] + (stationU[i + 1] - stationU[i]) * (step - i);
-        track.at(u, heroLead.position);
+        pointAt(step, heroLead.position);
         heroLead.position.y += 0.35;
         const tint = step < 2 ? PALETTE.cyan : step < 3.5 ? PALETTE.emerald : PALETTE.gold;
         (leadCore.material as THREE.MeshBasicMaterial).color.copy(tint).multiplyScalar(3);
