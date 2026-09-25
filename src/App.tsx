@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, type CSSProperties } from 'react';
 import {
   motion,
   useReducedMotion,
@@ -27,6 +27,8 @@ import {
   X,
   Zap,
 } from 'lucide-react';
+import CinematicStage from './cinematic/CinematicStage';
+import ChapterRail, { type Chapter } from './cinematic/ChapterRail';
 
 const CONTACT = {
   email: 'info.moadel@gmail.com',
@@ -184,6 +186,40 @@ const differentiators = [
   },
 ];
 
+const chapters: Chapter[] = [
+  { id: 'home', label: 'Mohamed Adel Attia' },
+  { id: 'about', label: 'About' },
+  { id: 'capabilities', label: 'Capabilities' },
+  { id: 'funnel', label: 'Connected funnel' },
+  { id: 'work', label: 'Selected work' },
+  { id: 'systems', label: 'Systems' },
+  { id: 'stack', label: 'Tools & stack' },
+  { id: 'experience', label: 'Experience' },
+  { id: 'approach', label: 'Working style' },
+  { id: 'contact', label: 'Contact' },
+];
+
+/** The section crossing the middle of the viewport. */
+function useActiveSection(ids: string[]) {
+  const [active, setActive] = useState(ids[0]);
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) if (entry.isIntersecting) setActive(entry.target.id);
+      },
+      { rootMargin: '-50% 0px -50% 0px' },
+    );
+    ids.forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
+    return () => observer.disconnect();
+  }, [ids]);
+  return active;
+}
+
+const chapterIds = chapters.map((c) => c.id);
+
 const reveal = {
   initial: { opacity: 0, y: 28 },
   whileInView: { opacity: 1, y: 0 },
@@ -273,7 +309,7 @@ function GrowthSystemVisual() {
   ];
 
   return (
-    <div className="growth-system-visual" aria-hidden="true">
+    <div className="growth-system-visual css-fallback" aria-hidden="true">
       <div className="growth-system-stage">
         <motion.div
           className="growth-system-scene"
@@ -334,6 +370,7 @@ export default function App() {
   const progress = useSpring(scrollYProgress, { stiffness: 140, damping: 28, mass: 0.2 });
   const heroY = useTransform(scrollYProgress, [0, 0.22], [0, 85]);
   const heroOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0.18]);
+  const activeSection = useActiveSection(chapterIds);
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
@@ -351,14 +388,16 @@ export default function App() {
   ];
 
   return (
-    <div className="min-h-screen overflow-x-hidden bg-[#020817] text-slate-100">
+    <div className="min-h-screen overflow-x-hidden text-slate-100">
       <a href="#main-content" className="skip-link">Skip to main content</a>
+      <CinematicStage />
+      <ChapterRail chapters={chapters} active={activeSection} />
       <motion.div
         className="fixed left-0 top-0 z-[70] h-[2px] origin-left bg-gradient-to-r from-emerald-300 via-cyan-300 to-blue-400"
         style={{ scaleX: progress, width: '100%' }}
       />
 
-      <div aria-hidden="true" className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
+      <div aria-hidden="true" className="ambient-glow pointer-events-none fixed inset-0 z-0 overflow-hidden">
         <div className="absolute -left-48 -top-40 h-[620px] w-[620px] rounded-full bg-emerald-500/[0.07] blur-[130px]" />
         <div className="absolute -right-52 top-[22%] h-[620px] w-[620px] rounded-full bg-cyan-500/[0.07] blur-[130px]" />
       </div>
@@ -382,7 +421,7 @@ export default function App() {
             aria-label="Primary navigation"
           >
             {nav.map(([label, href]) => (
-              <a key={href} href={href} className="nav-link">
+              <a key={href} href={href} className="nav-link" aria-current={activeSection === href.slice(1) ? 'true' : undefined}>
                 {label}
               </a>
             ))}
@@ -403,6 +442,7 @@ export default function App() {
 
         <motion.div
           id="mobile-navigation"
+          inert={!mobileOpen}
           initial={false}
           animate={{ height: mobileOpen ? 'auto' : 0, opacity: mobileOpen ? 1 : 0 }}
           className="overflow-hidden border-t border-white/[0.06] bg-[#03101f]/95 md:hidden"
@@ -430,10 +470,11 @@ export default function App() {
       </header>
 
       <main id="main-content" tabIndex={-1} className="relative z-10 pt-20">
-        <section id="home" className="relative isolate min-h-[calc(100svh-80px)] overflow-hidden">
+        <section id="home" data-shot="hero" className="relative isolate min-h-[calc(100svh-80px)] overflow-hidden">
           <HeroParticles />
           <GrowthSystemVisual />
           <div className="hero-grid pointer-events-none absolute inset-0 opacity-55" aria-hidden="true" />
+          <div className="hero-scrim pointer-events-none absolute inset-0" aria-hidden="true" />
           <div className="pointer-events-none absolute inset-x-0 bottom-0 h-44 bg-gradient-to-b from-transparent to-[#020817]" aria-hidden="true" />
 
           <motion.div
@@ -464,7 +505,7 @@ export default function App() {
                 initial={{ opacity: 0, y: 32, rotateX: -14 }}
                 animate={{ opacity: 1, y: 0, rotateX: 0 }}
                 transition={{ delay: 0.12, duration: 0.72, type: 'spring', bounce: 0.16 }}
-                className="hero-title mt-5 max-w-[850px] font-display text-[clamp(3rem,7vw,5.9rem)] font-semibold leading-[0.99] tracking-[-0.052em] text-white"
+                className="hero-title mt-5 max-w-[850px] font-display text-[clamp(2.6rem,min(7vw,8.4svh),5.9rem)] font-semibold leading-[0.99] tracking-[-0.052em] text-white"
               >
                 I manage growth campaigns and build the <span className="gradient-text">systems behind them.</span>
               </motion.h1>
@@ -473,7 +514,7 @@ export default function App() {
                 initial={{ opacity: 0, y: 18 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.34, duration: 0.55 }}
-                className="mt-7 max-w-3xl text-base leading-7 text-slate-300 sm:text-lg sm:leading-8 md:text-xl"
+                className="mt-6 max-w-3xl text-base leading-7 text-slate-300 sm:text-lg sm:leading-8 md:text-xl"
               >
                 Performance marketing, CRM, tracking, SEO, websites and automation — handled as one connected acquisition-to-sales system rather than separate tasks.
               </motion.p>
@@ -516,8 +557,8 @@ export default function App() {
           </motion.div>
         </section>
 
-        <section id="about" className="relative overflow-hidden py-24 sm:py-28 lg:py-32">
-          <div className="absolute inset-0 bg-[#071424]/72" aria-hidden="true" />
+        <section id="about" data-shot="about" className="relative overflow-hidden py-24 sm:py-28 lg:py-32">
+          <div className="section-veil absolute inset-0" style={{ '--veil': 'rgba(7,20,36,.72)' } as CSSProperties} aria-hidden="true" />
           <div className="pointer-events-none absolute -left-32 top-1/3 h-96 w-96 rounded-full bg-emerald-500/[0.07] blur-[100px]" aria-hidden="true" />
           <div className="relative mx-auto grid max-w-7xl gap-14 px-5 sm:px-6 lg:grid-cols-[1.05fr_.95fr] lg:items-center lg:gap-20">
             <motion.div
@@ -565,7 +606,7 @@ export default function App() {
           </div>
         </section>
 
-        <section id="capabilities" className="relative mx-auto max-w-7xl px-5 py-24 sm:px-6 sm:py-28 lg:py-32">
+        <section id="capabilities" data-shot="capabilities" className="relative mx-auto max-w-7xl px-5 py-24 sm:px-6 sm:py-28 lg:py-32">
           <SectionHeading
             eyebrow="Capabilities"
             title="One profile across acquisition, systems and execution."
@@ -601,7 +642,8 @@ export default function App() {
           </div>
         </section>
 
-        <section className="relative overflow-hidden border-y border-white/[0.06] bg-[#03101f]/72 py-20 sm:py-24">
+        <section id="funnel" data-shot="funnel" className="relative overflow-hidden border-y border-white/[0.06] py-20 sm:py-24">
+          <div className="section-veil absolute inset-0" style={{ '--veil': 'rgba(3,16,31,.72)' } as CSSProperties} aria-hidden="true" />
           <div className="pointer-events-none absolute left-1/2 top-1/2 h-[440px] w-[70%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-emerald-500/[0.055] blur-[100px]" aria-hidden="true" />
           <div className="relative mx-auto max-w-7xl px-5 sm:px-6">
             <SectionHeading
@@ -645,7 +687,8 @@ export default function App() {
           </div>
         </section>
 
-        <section id="work" className="relative overflow-hidden border-y border-white/[0.06] bg-[#061322]/78 py-24 sm:py-28 lg:py-32">
+        <section id="work" className="relative overflow-hidden border-y border-white/[0.06] py-24 sm:py-28 lg:py-32">
+          <div className="section-veil absolute inset-0" style={{ '--veil': 'rgba(6,19,34,.78)' } as CSSProperties} aria-hidden="true" />
           <div className="pointer-events-none absolute left-1/2 top-1/3 h-[620px] w-[620px] -translate-x-1/2 rounded-full bg-cyan-500/[0.06] blur-[120px]" aria-hidden="true" />
           <div className="relative mx-auto max-w-7xl px-5 sm:px-6">
             <SectionHeading
@@ -658,13 +701,14 @@ export default function App() {
               {projects.map((project, index) => (
                 <motion.article
                   key={project.title}
+                  data-shot={`work-${index + 1}`}
                   initial={{ opacity: 0, y: 34, scale: 0.985 }}
                   whileInView={{ opacity: 1, y: 0, scale: 1 }}
                   viewport={{ once: true, margin: '-80px' }}
                   transition={{ duration: 0.62, delay: index * 0.04, ease: [0.22, 1, 0.36, 1] }}
-                  className="group relative overflow-hidden rounded-[1.75rem] border border-white/[0.08] bg-[#04101e]/85 p-6 shadow-[0_28px_80px_rgba(0,0,0,.18)] transition duration-500 hover:border-cyan-300/25 sm:p-8 lg:p-10"
+                  className="work-card group relative overflow-hidden rounded-[1.75rem] border border-white/[0.08] bg-[#04101e]/85 p-6 shadow-[0_28px_80px_rgba(0,0,0,.18)] transition duration-500 hover:border-cyan-300/25 sm:p-8 lg:p-10"
                 >
-                  <div className="relative grid gap-8 lg:grid-cols-[.82fr_1.18fr] lg:gap-12">
+                  <div className="work-card-grid relative grid gap-8">
                     <div>
                       <div className="inline-flex rounded-full border border-cyan-300/15 bg-cyan-300/[0.06] px-3 py-1.5 text-xs font-bold tracking-[0.18em] text-cyan-300">
                         {project.tag}
@@ -698,7 +742,7 @@ export default function App() {
           </div>
         </section>
 
-        <section className="relative mx-auto max-w-7xl px-5 py-24 sm:px-6 sm:py-28 lg:py-32">
+        <section id="systems" data-shot="systems" className="relative mx-auto max-w-7xl px-5 py-24 sm:px-6 sm:py-28 lg:py-32">
           <SectionHeading
             eyebrow="Systems"
             title="The technical layer behind the marketing work."
@@ -725,8 +769,9 @@ export default function App() {
           </div>
         </section>
 
-        <section className="relative overflow-hidden border-y border-white/[0.06] bg-[#061322]/68 py-24 sm:py-28 lg:py-32">
-          <div className="mx-auto max-w-7xl px-5 sm:px-6">
+        <section id="stack" data-shot="stack" className="relative overflow-hidden border-y border-white/[0.06] py-24 sm:py-28 lg:py-32">
+          <div className="section-veil absolute inset-0" style={{ '--veil': 'rgba(6,19,34,.68)' } as CSSProperties} aria-hidden="true" />
+          <div className="relative mx-auto max-w-7xl px-5 sm:px-6">
             <SectionHeading
               eyebrow="Tools & stack"
               title="Tools I use in day-to-day marketing and technical work."
@@ -773,6 +818,7 @@ export default function App() {
               viewport={{ once: true, margin: '-80px' }}
               transition={{ duration: 0.58, ease: [0.22, 1, 0.36, 1] }}
               className="experience-row"
+              data-shot="exp-2"
             >
               <div className="experience-meta">
                 <span>Apr 2025 — Present</span>
@@ -801,6 +847,7 @@ export default function App() {
               viewport={{ once: true, margin: '-80px' }}
               transition={{ duration: 0.58, delay: 0.06, ease: [0.22, 1, 0.36, 1] }}
               className="experience-row"
+              data-shot="exp-1"
             >
               <div className="experience-meta">
                 <span>Jan 2021 — Mar 2025</span>
@@ -824,7 +871,7 @@ export default function App() {
           </div>
         </section>
 
-        <section className="relative overflow-hidden py-24 sm:py-28 lg:py-32">
+        <section id="approach" data-shot="style" className="relative overflow-hidden py-24 sm:py-28 lg:py-32">
           <div className="pointer-events-none absolute -right-48 top-1/3 h-[520px] w-[520px] rounded-full bg-cyan-500/[0.055] blur-[120px]" aria-hidden="true" />
           <div className="relative mx-auto max-w-7xl px-5 sm:px-6">
             <SectionHeading
@@ -858,7 +905,7 @@ export default function App() {
           </div>
         </section>
 
-        <section id="contact" className="relative overflow-hidden border-t border-white/[0.06] py-24 sm:py-28 lg:py-32">
+        <section id="contact" data-shot="contact" className="relative overflow-hidden border-t border-white/[0.06] py-24 sm:py-28 lg:py-32">
           <div className="pointer-events-none absolute left-1/2 top-1/2 h-[620px] w-[620px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-emerald-500/[0.09] blur-[130px]" aria-hidden="true" />
           <motion.div
             initial={{ opacity: 0, scale: 0.96 }}
